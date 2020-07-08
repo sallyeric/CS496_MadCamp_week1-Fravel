@@ -64,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(fragment3, "Third");
         viewPager.setAdapter(viewPagerAdapter);
 
-        //tabLayout.getTabAt(0).setIcon(R.drawable.ic_baseline_explore_24);
-        //tabLayout.getTabAt(1).setIcon(R.drawable.ic_baseline_flight_24);
-        //tabLayout.getTabAt(2).setIcon(R.drawable.ic_baseline_card_travel_24);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_account_circle_24px);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_collections_24px);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_map_24px);
 
         //BadgeDrawable badgeDrawable = tabLayout.getTabAt(0).getOrCreateBadge();
         //badgeDrawable.setVisible(true);
