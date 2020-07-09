@@ -1,9 +1,13 @@
 package com.example.firstproject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +18,7 @@ public class Fragment2  extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     GridView gridView;
+    static int screenWidth;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -55,14 +60,28 @@ public class Fragment2  extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("test1", "calculate the display size");
+        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+        screenWidth = metrics.widthPixels;
+        Log.d("test1", String.valueOf(screenWidth));
 
         View v = inflater.inflate(R.layout.fragment_2, container, false);
         gridView = (GridView) v.findViewById(R.id.grid_view);
         //gridView = (GridView) getView().findViewById(R.id.grid_view);
         gridView.setAdapter(new ImageAdapter(getActivity()));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                Intent intent = new Intent(getActivity(), FullScreenActivity.class);
+                intent.putExtra("id", position);
+                startActivity(intent);
+            }
+        });
 
         // Inflate the layout for this fragment
         return v;
     }
+
+
 
 }
