@@ -1,7 +1,7 @@
 # CS496_Pr1
 2020s 몰입캠프 과제1
 
-##탭구조를 이용한 안드로이드앱 개발
+## 탭구조를 이용한 안드로이드앱 개발
 
 장영재 진승현
 
@@ -12,5 +12,5 @@
 
 
 
-###공통과제 Google Docs
+### 공통과제 Google Docs
 https://docs.google.com/document/d/1zV8aeyqxHAsjCEAaZWlb4dpmD02plhq_aMRHoIKuz5Q/edit
