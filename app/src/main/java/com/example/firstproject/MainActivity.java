@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Movie;
@@ -17,24 +19,18 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.FirebaseError;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -42,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private Fragment1 fragment1;
     private Fragment2 fragment2;
     private Fragment3 fragment3;
+
+    private ImageView imageView;
+    RecyclerView recyclerView;
+    GridLayoutManager gridLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
         //final float screenWidthInDp=displayMetrics.widthPixels;
         //Log.wtf("test","kaist");
         //Log.wtf("ScreenWidth", "width: "+screenWidthInDp+", menuWidth: "+screenWidthInDp/3);
+
+        imageView = (ImageView) findViewById(R.id.imageView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        ArrayList imageUrlList = prepareData();
+        ImageAdapter dataAdapter = new ImageAdapter(getApplicationContext(), imageUrlList);
+        recyclerView.setAdapter(dataAdapter);
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -110,5 +119,23 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return fragmentTitle.get(position);
         }
+    }
+
+    private ArrayList prepareData() {
+// here you should give your image URLs and that can be a link from the Internet
+        String imageUrls[] = {
+                "url1",
+                "url2",
+                "url3",
+                "url4"};
+
+        ArrayList imageUrlList = new ArrayList<>();
+        for (int i = 0; i < imageUrls.length; i++) {
+            ImageUrl imageUrl = new ImageUrl();
+            imageUrl.setImageUrl(imageUrls[i]);
+            imageUrlList.add(imageUrl);
+        }
+        Log.d("MainActivity", "List count: " + imageUrlList.size());
+        return imageUrlList;
     }
 }
