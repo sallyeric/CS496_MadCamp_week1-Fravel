@@ -11,9 +11,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Movie;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment1 fragment1;
     private Fragment2 fragment2;
     private Fragment3 fragment3;
+
 
 
     @Override
@@ -70,7 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
         //BadgeDrawable badgeDrawable = tabLayout.getTabAt(0).getOrCreateBadge();
         //badgeDrawable.setVisible(true);
-        //badgeDrawable.setNumber(12);
+        //badgeDrawable.setNumber(12);]
+
+        //final DisplayMetrics displayMetrics=getResources().getDisplayMetrics();
+        //final float screenWidthInDp=displayMetrics.widthPixels;
+        //Log.wtf("test","kaist");
+        //Log.wtf("ScreenWidth", "width: "+screenWidthInDp+", menuWidth: "+screenWidthInDp/3);
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {

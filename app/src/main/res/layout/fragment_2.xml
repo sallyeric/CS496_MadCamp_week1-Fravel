@@ -6,10 +6,22 @@
     tools:context=".Fragment2">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <GridView
+        android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="32dp"
-        android:text="Fragment2" />
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+
+        android:numColumns="3"
+        android:columnWidth="90dp"
+        android:horizontalSpacing="0dp"
+        android:verticalSpacing="0dp"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        >
+    </GridView>
+
 
 </FrameLayout>
