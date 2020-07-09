@@ -28,7 +28,7 @@ public class Fragment2  extends Fragment {
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment ExploreFragment.
-     * changed -> more
+     * changed -> more and more
      */
     // TODO: Rename and change types and number of parameters
     public static Fragment2 newInstance(String param1, String param2) {
