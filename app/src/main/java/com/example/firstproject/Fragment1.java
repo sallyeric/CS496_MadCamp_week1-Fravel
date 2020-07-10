@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,13 +28,17 @@ import java.util.ArrayList;
 
 public class Fragment1 extends Fragment {
 
+    private RecyclerView recyclerView;                                                              // RV
+
+
     // 옮겨온 변수들
     private DatabaseReference mPostReference;
     String name="";
     String number="";
     ListView listView;
 
-    ArrayList<Item> list;
+    //ArrayList<Item> list; // 아래에 수정
+    private ArrayList<Item> list = new ArrayList<>();                                               // RV
     SimpleTextAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -79,10 +85,11 @@ public class Fragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_1, container, false);
+        final View v = inflater.inflate(R.layout.fragment_1, container, false);
 
-        list = new ArrayList<Item>();
-        listView = (ListView) v.findViewById(R.id.dataList);
+        //list = new ArrayList<Item>();                                                             // RV
+        //listView = (ListView) v.findViewById(R.id.dataList);                                      // RV
+        recyclerView = (RecyclerView) v.findViewById(R.id.dataList);                                // RV
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -93,16 +100,30 @@ public class Fragment1 extends Fragment {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("name_list");
         final Query query = ref.orderByChild("name");
 
-        Context context1 = v.getContext();                                                            // Context 수정
-        adapter = new SimpleTextAdapter(context1, list);
-        listView.setAdapter(adapter);
+        //Context context1 = v.getContext();                                                            // Context 수정
+        //list = Item.createContactsList(5);
+        //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
+        //recyclerView.setHasFixedSize(true);
+        //adapter = new SimpleTextAdapter(context1, list);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
+        //recyclerView.setAdapter(adapter);                                                           // RV
+
+        //listView.setAdapter(adapter);                                                             // RV
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getChildrenCount() > 0) {
                     //username found
+                    Context context1 = v.getContext();                                                            // Context 수정
+                    list = Item.createContactsList(5);
+                    //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
+                    recyclerView.setHasFixedSize(true);
+                    adapter = new SimpleTextAdapter(context1, list);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
+                    recyclerView.setAdapter(adapter);
                     getFirebaseDatabase();
+
                 } else {
                     // username not found
                     //Toast.makeText(Fragment1.this,"Order ERROR", Toast.LENGTH_SHORT).show();
@@ -144,6 +165,7 @@ public class Fragment1 extends Fragment {
                     list.add(result);
                     Log.d("getFirebaseDatabase","key: "+key);
                     Log.d("getFirebaseDatabase","info: "+info[0]+info[1]);
+                    Log.d("ListSize",String.valueOf(list.size()));
                 }
                 adapter.notifyDataSetChanged();
             }

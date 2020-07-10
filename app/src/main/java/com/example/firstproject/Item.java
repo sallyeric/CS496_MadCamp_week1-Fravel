@@ -1,5 +1,7 @@
 package com.example.firstproject;
 
+import java.util.ArrayList;
+
 public class Item {
     private String name;
     private String number;
@@ -17,5 +19,15 @@ public class Item {
 
     public String getNumber() {
         return number;
+    }
+
+    public static ArrayList<Item> createContactsList(int numContacts) {
+        ArrayList<Item> contacts = new ArrayList<Item>();
+
+        for (int i = 1; i <= numContacts; i++) {
+            contacts.add(new Item("Person ", "010"));
+        }
+
+        return contacts;
     }
 }
