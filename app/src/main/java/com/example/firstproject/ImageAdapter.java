@@ -1,0 +1,74 @@
+package com.example.firstproject;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+    private ArrayList<ImageUrl> imageUrls;
+    private Context context;
+    //private OnItemClickListener onItemClickListener;
+    private ArrayList<imgFormat> localPhotoList;
+
+    public ImageAdapter(Context context, ArrayList<ImageUrl> imageUrls, ArrayList<imgFormat> localPhotoList) {
+        this.context = context;
+        this.imageUrls = imageUrls;
+        this.localPhotoList = localPhotoList;
+    }
+
+    @Override
+    public ImageAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_layout, viewGroup, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        //Glide.with(context).load(imageUrls.get(i).getImageUrl()).centerCrop().into(viewHolder.img);
+        //final imgFormat cur = mPhotoList.get(i).getImgPath();
+        Log.d("item_print", localPhotoList.get(i).getImgPath());
+        Glide.with(context)
+                //.load(imageUrls.get(i).getImageUrl()) // 웹 이미지 로드
+                .load(localPhotoList.get(i).getImgPath()) // 이미지 로드
+                //.load("/storage/emulated/0/Download/Domestic_Goose.jpg")
+                .error(R.drawable.imagenotfound)
+                .override(500,500) //해상도 최적화
+                .thumbnail(0.5f) //섬네일 최적화. 지정한 %만큼 미리 이미지를 가져와 보여주기
+                .centerCrop() // 중앙 크롭
+                .into(viewHolder.img);
+    }
+
+    @Override
+    public int getItemCount() {
+        //return imageUrls.size();
+        return localPhotoList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView img;
+        public ViewHolder(View view) {
+            super(view);
+            img = view.findViewById(R.id.imageView);
+        }
+    }
+
+
+
+}
