@@ -31,8 +31,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    //implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    //implementation 'com.google.firebase:firebase-database:19.2.0'
+    //firebase
+    implementation 'com.google.firebase:firebase-storage:17.0.0'
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
-    implementation 'com.google.firebase:firebase-database:19.2.0'
+    implementation 'com.google.firebase:firebase-database:19.3.0'
 
     //Toolbar
     implementation 'com.android.support:appcompat-v7:30.0.3'
@@ -40,4 +44,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha02'
     //Drawer
     implementation 'com.android.support:design:30.0.3'
+
+    //RecyclerView
+    compile 'com.android.support:recyclerview-v7:30.0.0'
+
 }
