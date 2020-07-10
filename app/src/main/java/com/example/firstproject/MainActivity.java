@@ -4,13 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -43,8 +48,38 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
 
+    private GalleryManager mGalleryManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        1);
+            }
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+            }
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.SEND_SMS)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS},
+                        1);
+            }
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -78,15 +113,6 @@ public class MainActivity extends AppCompatActivity {
         //final float screenWidthInDp=displayMetrics.widthPixels;
         //Log.wtf("test","kaist");
         //Log.wtf("ScreenWidth", "width: "+screenWidthInDp+", menuWidth: "+screenWidthInDp/3);
-
-        imageView = (ImageView) findViewById(R.id.imageView);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
-
-        ArrayList imageUrlList = prepareData();
-        ImageAdapter dataAdapter = new ImageAdapter(getApplicationContext(), imageUrlList);
-        recyclerView.setAdapter(dataAdapter);
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -121,21 +147,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList prepareData() {
-// here you should give your image URLs and that can be a link from the Internet
-        String imageUrls[] = {
-                "url1",
-                "url2",
-                "url3",
-                "url4"};
 
-        ArrayList imageUrlList = new ArrayList<>();
-        for (int i = 0; i < imageUrls.length; i++) {
-            ImageUrl imageUrl = new ImageUrl();
-            imageUrl.setImageUrl(imageUrls[i]);
-            imageUrlList.add(imageUrl);
-        }
-        Log.d("MainActivity", "List count: " + imageUrlList.size());
-        return imageUrlList;
-    }
 }

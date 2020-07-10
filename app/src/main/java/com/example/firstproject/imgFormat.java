@@ -1,7 +1,7 @@
 package com.example.firstproject;
 
 public class imgFormat {
-    private String imgPath;
+    String imgPath;
     private boolean selected;
 
     public imgFormat(String imgPath, boolean selected) {
