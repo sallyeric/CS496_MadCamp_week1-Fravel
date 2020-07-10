@@ -164,7 +164,7 @@ public class Fragment1 extends Fragment {
 
                     list.add(result);
                     Log.d("getFirebaseDatabase","key: "+key);
-                    Log.d("getFirebaseDatabase","info: "+info[0]+info[1]);
+                    Log.d("getFirebaseDatabase","info: "+info[0]+" "+info[1]);
                     Log.d("ListSize",String.valueOf(list.size()));
                 }
                 adapter.notifyDataSetChanged();

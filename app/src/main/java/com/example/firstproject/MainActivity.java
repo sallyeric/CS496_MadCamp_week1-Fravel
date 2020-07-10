@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment2 fragment2;
     private Fragment3 fragment3;
 
+    public ArrayList<PhoneBook> phoneBooks;
     private ImageView imageView;
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
@@ -67,15 +70,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        1);
-            }
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.SEND_SMS)) {
-
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.SEND_SMS},
                         1);
             }
         }
@@ -113,6 +107,23 @@ public class MainActivity extends AppCompatActivity {
         //final float screenWidthInDp=displayMetrics.widthPixels;
         //Log.wtf("test","kaist");
         //Log.wtf("ScreenWidth", "width: "+screenWidthInDp+", menuWidth: "+screenWidthInDp/3);
+
+        /*
+        phoneBooks=new ArrayList<>();
+        phoneBooks=contactLoader.getData(this);
+        Log.d("phoneBooks","-->"+phoneBooks.get(0).getName());
+        RecyclerView recyclerView = findViewById(R.id.dataList) ;
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), 1));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)) ;
+
+         */
+        /*
+        Tab1TextAdapter adapter = new Tab1TextAdapter(phoneBooks) ;
+        recyclerView.setAdapter(adapter);
+        ts1.setIndicator("PhoneBook");
+        tabHost1.addTab(ts1);
+         */
+
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
