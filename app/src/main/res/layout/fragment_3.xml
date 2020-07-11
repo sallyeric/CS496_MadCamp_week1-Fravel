@@ -15,7 +15,8 @@
 
         <fragment
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="500dp"
+            android:layout_weight="1"
             android:id="@+id/map"
             tools:context=".MapsActivity"
             android:name="com.google.android.gms.maps.SupportMapFragment" >
@@ -24,7 +25,7 @@
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:text="Add"/>
 
     </LinearLayout>
