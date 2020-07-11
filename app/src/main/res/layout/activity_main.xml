@@ -22,17 +22,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_account_circle_24px"
-                android:text="Contact"/>
+                android:text=""/>
+            <!-- android:text="Contact" -->
+
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_collections_24px"
-                android:text="Gallery"/>
+                android:text=""/>
+            <!-- android:text="Gallery" -->
+
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_map_24px"
-                android:text="Tab3"/>
+                android:text=""/>
+            <!-- android:text="Tab3" -->
+
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

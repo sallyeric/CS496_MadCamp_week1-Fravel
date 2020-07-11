@@ -68,23 +68,11 @@ public class Fragment2  extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("dispsize", "calculate the display size");
-        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
-        screenWidth = metrics.widthPixels;
-        Log.d("dispsize", String.valueOf(screenWidth));
+        //Log.d("dispsize", "calculate the display size");
+        //DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+        //screenWidth = metrics.widthPixels;
+        //Log.d("dispsize", String.valueOf(screenWidth));
         View v = inflater.inflate(R.layout.fragment_2, container, false);
-        /*
-        gridView = (GridView) v.findViewById(R.id.grid_view);
-        //gridView = (GridView) getView().findViewById(R.id.grid_view);
-        gridView.setAdapter(new ImageAdapter(getActivity()));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent intent = new Intent(getActivity(), FullScreenActivity.class);
-                intent.putExtra("id", position);
-                startActivity(intent);
-            }
-        });*/
 
         imageView = (ImageView) v.findViewById(R.id.imageView);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView2);
@@ -124,6 +112,5 @@ public class Fragment2  extends Fragment {
         Log.d("Fragment2", "List count: " + imageUrlList.size());
         return imageUrlList; // ArrayList : ImageUrl이 저장됨
     }
-
 
 }

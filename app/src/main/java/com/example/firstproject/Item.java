@@ -25,7 +25,7 @@ public class Item {
         ArrayList<Item> contacts = new ArrayList<Item>();
 
         for (int i = 1; i <= numContacts; i++) {
-            contacts.add(new Item("Person ", "010"));
+            contacts.add(new Item("Person ", "000-0000-0000")); //PERSON / NUMBER
         }
 
         return contacts;

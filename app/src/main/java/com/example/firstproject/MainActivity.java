@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
-        viewPagerAdapter.addFragment(fragment1, "Contact");
-        viewPagerAdapter.addFragment(fragment2, "Gallery");
-        viewPagerAdapter.addFragment(fragment3, "Third");
+        viewPagerAdapter.addFragment(fragment1, "");
+        viewPagerAdapter.addFragment(fragment2, "");
+        viewPagerAdapter.addFragment(fragment3, "");
         viewPager.setAdapter(viewPagerAdapter);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_account_circle_24px);
