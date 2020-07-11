@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)) {
 
@@ -73,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
                         1);
             }
         }
-
+        */
+        setTitle("");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
