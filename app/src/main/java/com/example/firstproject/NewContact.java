@@ -4,13 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.MapView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,9 +31,9 @@ import java.util.Map;
 
 public class NewContact extends AppCompatActivity {
     private DatabaseReference mPostReference;
-    String name="", number="";
+    String name="", number="", address="";
     String sort="name";
-    EditText nameET,numberET;
+    EditText nameET,numberET, addressET;
     Button btn; //??
 
     ArrayList<String> data;
@@ -42,6 +49,7 @@ public class NewContact extends AppCompatActivity {
         numberET=(EditText) findViewById(R.id.addNumber);
 
         mPostReference= FirebaseDatabase.getInstance().getReference();
+
 
         Button login = (Button)findViewById(R.id.signupButton);
         login.setOnClickListener(new View.OnClickListener() {
