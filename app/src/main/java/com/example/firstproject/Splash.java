@@ -53,7 +53,7 @@ public class Splash extends AppCompatActivity {
                 }
 
             }
-        }, 3000);
+        }, 1000);
     }
 
     public void LaunchApp()
@@ -61,8 +61,7 @@ public class Splash extends AppCompatActivity {
         Thread background = new Thread() {
             public void run() {
                 try {
-                    // Thread will sleep for 10 seconds
-                    sleep(2*1000);
+                    sleep(1000);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
                 } catch (Exception e) {

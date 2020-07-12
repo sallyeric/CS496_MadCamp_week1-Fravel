@@ -21,15 +21,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
-    private ArrayList<ImageUrl> imageUrls;
+    public interface OnListItemLongSelectedInterface{
+        void onItemLongSelected(View v, int position);
+    }
+    public interface OnListItemSelectedInterface{
+        void onItemSelected(View v, int position);
+    }
+    private OnListItemSelectedInterface mListener;
+    private OnListItemLongSelectedInterface mLongListener;
+
     private Context context;
-    //private OnItemClickListener onItemClickListener;
+    private ArrayList<ImageUrl> imageUrls;
     private ArrayList<imgFormat> localPhotoList;
 
-    public ImageAdapter(Context context, ArrayList<ImageUrl> imageUrls, ArrayList<imgFormat> localPhotoList) {
+
+    public ImageAdapter(Context context, ArrayList<ImageUrl> imageUrls, ArrayList<imgFormat> localPhotoList, OnListItemSelectedInterface listener, OnListItemLongSelectedInterface longListener) {
         this.context = context;
         this.imageUrls = imageUrls;
         this.localPhotoList = localPhotoList;
+        this.mListener= listener;
+        this.mLongListener = longListener;
     }
 
     @Override
@@ -61,14 +72,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return localPhotoList.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         public ViewHolder(View view) {
             super(view);
             img = view.findViewById(R.id.imageView);
+            itemView.setOnClickListener(new View.OnClickListener(){
+                int position = getAdapterPosition();
+                mListener.onItemSelected(v, getAdapterPosition());
+                Log.d("test","position="+getAdapterPosition());
+            });
         }
     }
-
-
-
 }

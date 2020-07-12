@@ -79,10 +79,13 @@ public class Fragment2  extends Fragment {
         gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
+
         ArrayList imageUrlList = prepareData();
         mGalleryManager = new GalleryManager(getActivity().getApplicationContext());
         ArrayList<imgFormat> localPhotoList = mGalleryManager.getAllPhotoPathList();
+
         ImageAdapter dataAdapter = new ImageAdapter(getActivity().getApplicationContext(), imageUrlList, localPhotoList);
+        dataAdapter.setOnItemClickListner(mOnItemClickListener);
         recyclerView.setAdapter(dataAdapter);
 
         // Inflate the layout for this fragment
