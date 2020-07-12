@@ -46,6 +46,7 @@ public class Fragment1 extends Fragment  {
     private DatabaseReference mPostReference;
     String name="";
     String number="";
+    String address="";
     ListView listView;
 
     //ArrayList<Item> list; // 아래에 수정

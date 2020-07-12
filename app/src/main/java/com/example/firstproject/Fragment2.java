@@ -1,6 +1,8 @@
 package com.example.firstproject;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -11,9 +13,17 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -28,6 +38,8 @@ public class Fragment2  extends Fragment {
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
     private GalleryManager mGalleryManager;
+
+    private StorageReference mStorageRef;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -103,6 +115,29 @@ public class Fragment2  extends Fragment {
 
     private ArrayList prepareData() {
 // here you should give your image URLs and that can be a link from the Internet
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        /*
+        mStorageRef= FirebaseStorage.getInstance().getReference("Images");
+
+        StorageReference islandRef = mStorageRef.child("snowpiercer.jpg");
+        final long ONE_MEGABYTE = 1024 * 1024;
+        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                ImageView img = (ImageView) v.findViewById(R.id.imageview);
+                img.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+// Handle any errors
+            }
+        });
+        */
+        /////////////////////////////////////////////////////////////////////////////
+
         String imageUrls[] = {
                 "https://image.dongascience.com/Photo/2018/03/c4a9b9c58a79029437f7563bcc9d92e3.jpg",
                 "https://img5.yna.co.kr/etc/inner/KR/2019/03/15/AKR20190315128100063_01_i_P2.jpg",

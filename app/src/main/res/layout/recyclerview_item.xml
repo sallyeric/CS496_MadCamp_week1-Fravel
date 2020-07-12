@@ -20,7 +20,7 @@
             />
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="7dp"
@@ -52,5 +52,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
+        <ImageButton
+            android:id="@+id/moreInfo"
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:background="@drawable/rounded_button_purple"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
