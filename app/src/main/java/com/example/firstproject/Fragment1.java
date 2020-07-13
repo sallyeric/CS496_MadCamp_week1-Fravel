@@ -32,7 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-public class Fragment1 extends Fragment  {
+public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemLongSelectedInterface
+        , SimpleTextAdapter.OnListItemSelectedInterface{
 
     private RecyclerView recyclerView;                                                              // RV
 
@@ -95,6 +96,20 @@ public class Fragment1 extends Fragment  {
     }
 
     @Override
+    public void onItemSelected(View v, int position) {
+        SimpleTextAdapter.Holder viewHolder = (SimpleTextAdapter.Holder)recyclerView.findViewHolderForAdapterPosition(position);
+        Toast.makeText(this.getContext(),  " long clicked", Toast.LENGTH_SHORT).show();
+        Log.d("test","long clicked");
+    }
+
+    @Override
+    public void onItemLongSelected(View v, int position) {
+        Toast.makeText(this.getContext(), " long clicked", Toast.LENGTH_SHORT).show();
+        Log.d("test","clicked");
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -113,13 +128,13 @@ public class Fragment1 extends Fragment  {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("name_list");
         final Query query = ref.orderByChild("name");
 
-        //Context context1 = v.getContext();                                                            // Context 수정
-        //list = Item.createContactsList(5);
+        Context context1 = v.getContext();                                                            // Context 수정
+        list = Item.createContactsList(5);
         //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
-        //recyclerView.setHasFixedSize(true);
-        //adapter = new SimpleTextAdapter(context1, list);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
-        //recyclerView.setAdapter(adapter);                                                           // RV
+        recyclerView.setHasFixedSize(true);
+        adapter = new SimpleTextAdapter(context1, list, this, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
+        recyclerView.setAdapter(adapter);                                                           // RV
 
         //listView.setAdapter(adapter);                                                             // RV
 
@@ -128,13 +143,13 @@ public class Fragment1 extends Fragment  {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getChildrenCount() > 0) {
                     //username found
-                    Context context1 = v.getContext();                                                            // Context 수정
-                    list = Item.createContactsList(5);
+                    //Context context1 = v.getContext();                                                            // Context 수정
+                    //list = Item.createContactsList(5);
                     //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
-                    recyclerView.setHasFixedSize(true);
-                    adapter = new SimpleTextAdapter(context1, list);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
-                    recyclerView.setAdapter(adapter);
+                    //recyclerView.setHasFixedSize(true);
+                    //adapter = new SimpleTextAdapter(context1, list, this , this);
+                    //recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
+                    //recyclerView.setAdapter(adapter);
                     getFirebaseDatabase();
 
                 } else {

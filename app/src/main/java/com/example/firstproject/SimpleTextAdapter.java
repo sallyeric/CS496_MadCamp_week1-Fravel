@@ -11,18 +11,33 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Holder> {
 
+    public interface OnListItemLongSelectedInterface {
+        void onItemLongSelected(View v, int position);
+    }
+
+    public interface OnListItemSelectedInterface {
+        void onItemSelected(View v, int position);
+    }
+
+    private OnListItemSelectedInterface mListener;
+    private OnListItemLongSelectedInterface mLongListener;
+
 
    private Context context;
     private List<Item> list = new ArrayList<>();
 
-    public SimpleTextAdapter(Context context, List<Item> list) {
+    public SimpleTextAdapter(Context context, List<Item> list, OnListItemSelectedInterface listener, OnListItemLongSelectedInterface longListener) {
         this.context = context;
         this.list = list;
+        this.mListener = listener;
+        this.mLongListener = longListener;
     }
 
 
@@ -78,7 +93,6 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Log.d("Recyclerview", "position = "+ getAdapterPosition());
                 }
             });
