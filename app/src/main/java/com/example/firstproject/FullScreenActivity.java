@@ -29,9 +29,9 @@ public class FullScreenActivity extends AppCompatActivity{
         Glide.with(this)
                 //.load(imageUrls.get(i).getImageUrl()) // 웹 이미지 로드
                 .load(imageUrl) // imageUrl
+                .thumbnail(0.1f)
                 .error(R.drawable.imagenotfound)
                 .into(img);
-
     }
 
 }

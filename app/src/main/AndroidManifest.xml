@@ -36,7 +36,7 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".FullScreenActivity">
+        <activity android:name=".FullScreenActivity" android:theme="@style/Transparent">
 
         </activity>
     </application>

@@ -9,9 +9,18 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -27,6 +36,20 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
     GridLayoutManager gridLayoutManager;
     private GalleryManager mGalleryManager;
     public ArrayList<imgFormat> localPhotoList;
+
+    private DatabaseReference mDatabaseRef;
+
+
+    private ArrayList<Item> list = new ArrayList<>();
+    ArrayList<ImageUrl> lalala = new ArrayList<>();
+    static ArrayList<ImageUrl> imageUrlList = new ArrayList<>();
+
+
+    FirebaseDatabase mFirebaseDatabase;
+    DatabaseReference mDatabaseReference;
+
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -90,8 +113,58 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView2);
         gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
+        /*
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("name_list");
+        final Query query = ref.orderByChild("name");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    getFirebaseDatabase();
+                } else {// username not found
 
-        ArrayList imageUrlList = prepareData();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        */
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("name_list");
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    String key=postSnapshot.getKey();
+                    FirebasePost get=postSnapshot.getValue(FirebasePost.class);
+                    String[] info={get.name,get.number,get.img};
+                    Item result= new Item(info[0],info[1]);
+
+                    list.add(result);
+                    if(info[2]!=null){
+                        ImageUrl imageUrl = new ImageUrl();
+                        imageUrl.setImageUrl(info[2]);
+                        imageUrlList.add(imageUrl);
+                        lalala.add(imageUrl);
+                        Log.d("imgSaved", String.valueOf(imageUrlList.size()));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //Toast.makeText(fragement,"Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Log.d("lalala_size", String.valueOf(lalala.size()));
+        for (int i = 0; i < imageUrlList.size(); i++){
+            Log.d("images", ">> " + imageUrlList.get(i).getImageUrl());
+        }
+        Log.d("images", "List count: " + imageUrlList.size());
+
+        //ArrayList firebaseimglist = prepareData();
         mGalleryManager = new GalleryManager(getActivity().getApplicationContext());
         localPhotoList = mGalleryManager.getAllPhotoPathList();
         ImageAdapter dataAdapter = new ImageAdapter(getActivity().getApplicationContext(), imageUrlList, localPhotoList, this, this);
@@ -100,29 +173,61 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
         // Inflate the layout for this fragment
         return v;
     }
-
+/*
     private ArrayList prepareData() {
+
 // here you should give your image URLs and that can be a link from the Internet
-        String imageUrls[] = {
+        final String imageUrls[] = {
                 "https://image.dongascience.com/Photo/2018/03/c4a9b9c58a79029437f7563bcc9d92e3.jpg",
-                "https://img5.yna.co.kr/etc/inner/KR/2019/03/15/AKR20190315128100063_01_i_P2.jpg",
-                "https://library.kaist.ac.kr/common/images/library_img_libraries.jpg",
-                "https://lh3.googleusercontent.com/proxy/Xbk1e0S2qGfsNaMTDSQML51kF3U3YG629cjWy_rYn91BCWWaxnNjQa3nsOivnTeA13UcUZRYwx4oHMLc8WOxljjybpRGdSUKbysvOwTSUPMmttynu_2zYKHE3x9bpjkKCszmAk52",
-                "https://post-phinf.pstatic.net/MjAxOTA5MTlfMjY1/MDAxNTY4ODg2OTAzNTY4.BVJLp9ehZy8ycWqj4BEmjD8vLFkbPtyK2NTpfARFWywg.iGzrVlGSrdIroOSw1punWIccxFVGah_a5S6-BSZEI70g.JPEG/1241.jpg?type=w1200",
-                "https://cphoto.asiae.co.kr/listimglink/6/2020032314051136502_1584939911.jpg",
-                "https://www.polytechnique.edu/sites/all/institutionnel/kaist_1.jpg",
-                "https://besuccess.com/wp-content/uploads/2015/06/team-kaist.jpg",
                 "https://www10.aeccafe.com/blogs/arch-showcase/files/2013/11/kaist-01.jpg",
                 "https://i1.wp.com/blockinpress.com/wp-content/uploads/2018/09/DSC08202.jpg?fit=640%2C428&ssl=1",
                 "https://sites.google.com/site/wqmbs2019/_/rsrc/1554518562382/direction/KI-map.png"};
-        ArrayList imageUrlList = new ArrayList<>();
-        for (int i = 0; i < imageUrls.length; i++) {
-            ImageUrl imageUrl = new ImageUrl();
-            imageUrl.setImageUrl(imageUrls[i]);
-            imageUrlList.add(imageUrl);
+
+        Log.d("FirebaseImage","loading start");
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        StorageReference imageRef = storageReference
+                .child("Images/11.jpeg");
+        Log.d("FirebaseImage","loading complete");
+        //ArrayList imageUrlList = new ArrayList<>();
+        imageRef.getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d("FirebaseImage", "Download Url is "+uri.toString());
+                        ImageUrl imageUrl = new ImageUrl();
+                        imageUrl.setImageUrl(uri.toString());
+                        imageUrlList.add(imageUrl);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("FirebaseImage", "loading fail");
+            }
+        });
+        for (int i = 0; i < imageUrlList.size(); i++){
+            Log.d("images", ">>" + imageUrlList.get(i).getImageUrl());
         }
-        Log.d("Fragment2", "List count: " + imageUrlList.size());
+        Log.d("images", "List count: " + imageUrlList.size());
+
+
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+            String key=postSnapshot.getKey();
+            FirebasePost get=postSnapshot.getValue(FirebasePost.class);
+            String[] info={get.name,get.number};
+            Item result= new Item(info[0],info[1]); //수정 !!!
+
+            list.add(result);
+            Log.d("getFirebaseDatabase","key: "+key);
+            Log.d("getFirebaseDatabase","info: "+info[0]+" "+info[1]);
+            Log.d("ListSize",String.valueOf(list.size()));
+        }
+
         return imageUrlList; // ArrayList : ImageUrl이 저장됨
     }
-
+*/
 }

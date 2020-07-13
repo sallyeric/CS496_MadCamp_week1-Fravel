@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity{
     private Fragment3 fragment3;
 
     public ArrayList<PhoneBook> phoneBooks;
+    //public ArrayList<ImageUrl> imageUrlList = new ArrayList<ImageUrl>();
     private ImageView imageView;
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity{
         setTitle("");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

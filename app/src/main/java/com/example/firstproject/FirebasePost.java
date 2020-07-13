@@ -6,6 +6,7 @@ import java.util.Map;
 public class FirebasePost {
     public String name; //수정
     public String number;
+    public String img;
 
     public FirebasePost(){
 

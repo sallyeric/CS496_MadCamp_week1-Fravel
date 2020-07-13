@@ -49,10 +49,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         //Glide.with(context).load(imageUrls.get(i).getImageUrl()).centerCrop().into(viewHolder.img);
         //final imgFormat cur = mPhotoList.get(i).getImgPath();
-        Log.d("item_print", localPhotoList.get(i).getImgPath());
+        //Log.d("item_print", localPhotoList.get(i).getImgPath());
         Glide.with(context)
-                //.load(imageUrls.get(i).getImageUrl()) // 웹 이미지 로드
-                .load(localPhotoList.get(i).getImgPath()) // 이미지 로드
+                .load(imageUrls.get(i).getImageUrl()) // 웹 이미지 로드
+                //.load(localPhotoList.get(i).getImgPath()) // 이미지 로드
                 //.load("/storage/emulated/0/Download/Domestic_Goose.jpg")
                 .error(R.drawable.imagenotfound)
                 .override(500,500) //해상도 최적화
@@ -63,8 +63,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        //return imageUrls.size();
-        return localPhotoList.size();
+        return imageUrls.size();
+        //return localPhotoList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -83,7 +83,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                     Log.d("Recyclerview", "position="+getAdapterPosition());
 
                     Intent fullScreenIntent=new Intent(context, FullScreenActivity.class);
-                    fullScreenIntent.putExtra("image_url", localPhotoList.get(position).getImgPath());
+                    fullScreenIntent.putExtra("image_url", imageUrls.get(position).getImageUrl());
                     context.startActivity(fullScreenIntent);
                 }
             });

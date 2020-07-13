@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,7 +50,8 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     ListView listView;
 
     //ArrayList<Item> list; // 아래에 수정
-    private ArrayList<Item> list = new ArrayList<>();                                               // RV
+    private ArrayList<Item> list = new ArrayList<>();
+    public ArrayList<ImageUrl> imageUrlList = new ArrayList<ImageUrl>();
     SimpleTextAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -118,12 +120,19 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
         final Query query = ref.orderByChild("name");
 
         Context context1 = v.getContext();                                                            // Context 수정
-        list = Item.createContactsList(1);
+        list = Item.createContactsList(0);
         //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
         recyclerView.setHasFixedSize(true);
         adapter = new SimpleTextAdapter(getActivity().getApplicationContext(), list, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
         recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(getActivity().getApplicationContext(),
+                        new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
         Log.d("Tab1","recyclerView complete");
 
         //listView.setAdapter(adapter);                                                             // RV
@@ -166,6 +175,8 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
             }
         });
 
+        //Log.d("shit",String.valueOf(imageUrlList.size()));
+
         return v;
     }
 
@@ -178,13 +189,16 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     String key=postSnapshot.getKey();
                     FirebasePost get=postSnapshot.getValue(FirebasePost.class);
-                    String[] info={get.name,get.number};
+                    String[] info={get.name,get.number,get.img};
                     Item result= new Item(info[0],info[1]); //수정 !!!
 
                     list.add(result);
                     Log.d("getFirebaseDatabase","key: "+key);
-                    Log.d("getFirebaseDatabase","info: "+info[0]+" "+info[1]);
+                    Log.d("getFirebaseDatabase","info: "+info[0]+" "+info[1]+" "+info[2]);
                     Log.d("ListSize",String.valueOf(list.size()));
+                    ImageUrl imageUrl = new ImageUrl();
+                    imageUrl.setImageUrl(info[2]);
+                    imageUrlList.add(imageUrl);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -193,7 +207,6 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
 
             }
         };
-
         mPostReference.child("name_list").addValueEventListener(postListener);
     }
 
