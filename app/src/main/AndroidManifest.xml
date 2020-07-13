@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.firstproject">
+    package="com.example.firstproject" >
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
@@ -18,15 +18,19 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MoreInfo"></activity>
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@drawable/rounded_button" />
+
+        <activity android:name=".MoreInfo" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA0H7TANWYtxmoieMxpAplginPumbtVUbE" />
+            android:value="AIzaSyAfIjvwG_BNS_7OtnrDsPPWtz40E0A1Tek" />
 
         <activity android:name=".NewContact" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

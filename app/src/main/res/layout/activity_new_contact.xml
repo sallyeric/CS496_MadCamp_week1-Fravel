@@ -58,7 +58,7 @@
             android:layout_height="50dp"
             android:ems="10"
             android:hint="Enter"
-            android:inputType="text"/>
+            android:inputType="number"/>
 
         <TextView
             android:layout_width="300dp"
@@ -89,6 +89,7 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_button"
             android:text="Add"/>
 
 
