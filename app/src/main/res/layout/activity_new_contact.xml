@@ -21,15 +21,27 @@
             android:textStyle="bold"
             android:text="Restaurant Name" />
 
-
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/addName"
-            android:layout_width="300dp"
+            android:layout_width="210dp"
             android:layout_height="50dp"
-            android:ems="10"
-            android:hint="Enter restaurant name."
-            android:inputType="text"/>
+            android:id="@+id/addName"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/addressTV"
+            android:singleLine="true"
+            android:hint="Enter restaurant name" />
+        <Button
+            android:id="@+id/search"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:textSize="10dp"
+            android:text="search"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
 
         <TextView
             android:layout_width="300dp"
@@ -58,7 +70,7 @@
             android:text="Review" />
 
         <EditText
-            android:id="@+id/addAddress"
+            android:id="@+id/addReview"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:ems="10"

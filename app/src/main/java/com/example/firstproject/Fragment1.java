@@ -32,9 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemLongSelectedInterface
-        , SimpleTextAdapter.OnListItemSelectedInterface{
-
+public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemLongSelectedInterface, SimpleTextAdapter.OnListItemSelectedInterface{
     private RecyclerView recyclerView;                                                              // RV
 
     /////////////////////////////////////////////////////////
@@ -132,6 +130,7 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
         list = Item.createContactsList(5);
         //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
         recyclerView.setHasFixedSize(true);
+
         adapter = new SimpleTextAdapter(context1, list, this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
         recyclerView.setAdapter(adapter);                                                           // RV

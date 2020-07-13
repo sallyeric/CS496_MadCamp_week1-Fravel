@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -41,10 +43,13 @@ import java.util.Map;
 
 public class NewContact extends AppCompatActivity {
     private DatabaseReference mPostReference;
-    String name="", number="", address="";
+    String name="", number="", review="";
+    double lat=0.0F, lng=0.0F;
     String sort="name";
-    EditText nameET,numberET, addressET;
+    EditText nameET,numberET, reviewET;
     Button btn; //??
+
+    Button searchButton;
 
     //image
     private static final int PICK_IMAGE=777;
@@ -63,10 +68,27 @@ public class NewContact extends AppCompatActivity {
         data=new ArrayList<String>();
         nameET=(EditText) findViewById(R.id.addName);
         numberET=(EditText) findViewById(R.id.addNumber);
-        addressET=(EditText) findViewById(R.id.addAddress);
+        reviewET=(EditText) findViewById(R.id.addReview);
 
         mPostReference= FirebaseDatabase.getInstance().getReference();
         mStorageRef= FirebaseStorage.getInstance().getReference("Images");
+
+        ////////////////////////LNGLAT///////////////////////////////////
+        searchButton = (Button) findViewById(R.id.search);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                EditText editText = (EditText) findViewById(R.id.addName);
+                String address = editText.getText().toString();
+
+                GeocodingLocation locationAddress = new GeocodingLocation();
+                locationAddress.getAddressFromLocation(address,
+                        getApplicationContext(), new GeocoderHandler());
+
+            }
+        });
+        //////////////////////////////////////////////////////////////////
 
         Button login = (Button)findViewById(R.id.signupButton);
         login.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +97,7 @@ public class NewContact extends AppCompatActivity {
                 //Firebase button parse
                 name=nameET.getText().toString();
                 number=numberET.getText().toString();
-                address=addressET.getText().toString();
+                review=reviewET.getText().toString();
 
                 // 버튼 클릭시 존재하는 아이디인지 ??
                 if((name.length()*number.length())==0){
@@ -145,6 +167,26 @@ public class NewContact extends AppCompatActivity {
 
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    Log.d("BUNDLE: ",bundle.toString());
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            //latLongTV.setText(locationAddress);
+            //postFirebaseDatabase2(true);
+        }
+    }
+    //////////////////////////////////////////////////////////////////////////
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,7 +202,7 @@ public class NewContact extends AppCompatActivity {
         Map<String,Object> childUpdates=new HashMap<>();
         Map<String,Object> postValues=null;
         if(add){
-            FirebasePost post=new FirebasePost(name,number,address);
+            FirebasePost post=new FirebasePost(name,number,review);
             postValues=post.toMap();
         }
         childUpdates.put("/name_list/"+name,postValues);
@@ -168,12 +210,24 @@ public class NewContact extends AppCompatActivity {
         clearET();
     }
 
+    public void postFirebaseDatabase2(boolean add){
+        Map<String,Object> childUpdates=new HashMap<>();
+        Map<String,Object> postValues=null;
+        if(add){
+            FirebasePlace post=new FirebasePlace(name,lat,lng);
+            postValues=post.toMap();
+        }
+        childUpdates.put("/place_list/"+name,postValues);
+        mPostReference.updateChildren(childUpdates);
+        clearET();
+    }
+
     public void clearET(){
         nameET.setText("");
         numberET.setText("");
-        addressET.setText("");
+        reviewET.setText("");
         name="";
         number="";
-        address="";
+        review="";
     }
 }

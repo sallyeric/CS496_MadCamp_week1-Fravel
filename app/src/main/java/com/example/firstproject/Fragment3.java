@@ -12,7 +12,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -66,6 +70,13 @@ public class Fragment3  extends Fragment
         ActivityCompat.OnRequestPermissionsResultCallback,
         PlacesListener {
 
+    ////////////////////////////geocoding////////////////////////////
+    Button addressButton;
+    TextView addressTV;
+    TextView latLongTV;
+    /////////////////////////////////////////////////////////////////
+
+
     ////////////////////////////////////////////////////////////////
     private DatabaseReference mPostReference;
     String userInfo="";
@@ -80,6 +91,9 @@ public class Fragment3  extends Fragment
 
     ////////////////////////////////////////////////////////////////
     private GoogleMap mMap;
+    ArrayList<LatLng>arrayList=new ArrayList<LatLng>();
+    LatLng suwon=new LatLng(36.3711705,127.36234309999999);
+    LatLng busan=new LatLng(36.3732444,127.36070219999999);
     private Marker currentMarker = null;
 
     private static final String TAG = "googlemap_example";
@@ -158,6 +172,25 @@ public class Fragment3  extends Fragment
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        //////////////////////////////지오코딩///////////////////////////
+        addressTV = (TextView) v.findViewById(R.id.addressTV);
+        latLongTV = (TextView) v.findViewById(R.id.latLongTV);
+
+        addressButton = (Button) v.findViewById(R.id.addressButton);
+        addressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                EditText editText = (EditText) v.findViewById(R.id.addressET);
+                String address = editText.getText().toString();
+
+                GeocodingLocation locationAddress = new GeocodingLocation();
+                locationAddress.getAddressFromLocation(address,
+                        getActivity().getApplicationContext(), new GeocoderHandler());
+            }
+        });
+        /////////////////////////////////////////////////////////////////
+
         ///////////////////////////사용자 정보////////////////////////////
 
         btn=(Button)v.findViewById(R.id.button1);
@@ -201,6 +234,9 @@ public class Fragment3  extends Fragment
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync((OnMapReadyCallback) this);
 
+        arrayList.add(suwon);
+        arrayList.add(busan);
+
         //장소찾기 버튼
         previous_marker = new ArrayList<Marker>();
 
@@ -219,11 +255,37 @@ public class Fragment3  extends Fragment
     //////////////////////////////기타 함수들//////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////
 
+    /////////////////////////////Geocoding////////////////////////////////////////////
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            latLongTV.setText(locationAddress);
+        }
+    }
+    //////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         Log.d(TAG, "onMapReady :");
 
         mMap = googleMap;
+
+        //수원과 부산
+        for(int i=0;i<arrayList.size();i++){
+            mMap.addMarker(new MarkerOptions().position(arrayList.get(i)).title("Marker"));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(arrayList.get(i)));
+        }
+
 
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에
         //지도의 초기위치를 서울로 이동
