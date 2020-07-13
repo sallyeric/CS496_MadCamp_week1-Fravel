@@ -59,7 +59,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
     @Override
     public void onItemSelected(View v, int position) {
         ImageAdapter.ViewHolder viewHolder = (ImageAdapter.ViewHolder)recyclerView.findViewHolderForAdapterPosition(position);
-        Toast.makeText(getActivity().getApplicationContext(), position+"pressed!" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), position+"pressed!" , Toast.LENGTH_SHORT).show(); //여기
     }
 
     @Override
