@@ -30,6 +30,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 
 public class Fragment1 extends Fragment  {
 
@@ -147,6 +148,7 @@ public class Fragment1 extends Fragment  {
                 //Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         ImageButton newContact = (ImageButton) v.findViewById(R.id.newContact);
         newContact.setOnClickListener(new View.OnClickListener() {

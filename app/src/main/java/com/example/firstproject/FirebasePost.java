@@ -12,7 +12,7 @@ public class FirebasePost {
 
     }
 
-    public FirebasePost(String name, String number){ // String address){ //수정
+    public FirebasePost(String name, String number, String address){ //수정
         this.name=name;
         this.number=number;
         this.address=address;

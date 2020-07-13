@@ -1,6 +1,7 @@
 package com.example.firstproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,17 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
         holder.nameText.setText(list.get(itemposition).getName());
         holder.numberText.setText(list.get(itemposition).getNumber());
         //Log.e("StudyApp", "onBindViewHolder" + itemposition);
+
+//        View view;
+//        holder.itemView.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view){
+//                Context context=view.getContext();
+//                Intent intent = new Intent(context,MoreInfo.class);
+                //putextra 만들어주기
+ //               context.startActivity(intent);
+ //           }
+ //       });
     }
 
     // 몇개의 데이터를 리스트로 뿌려줘야하는지 반드시 정의해줘야한다
@@ -62,6 +74,22 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
             super(view);
             nameText = (TextView) view.findViewById(R.id.name_tv);
             numberText = (TextView) view.findViewById(R.id.number_tv);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Log.d("Recyclerview", "position = "+ getAdapterPosition());
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Log.d("Recyclerview", "position = "+ getAdapterPosition());
+                    return false;
+                }
+            });
         }
     }
 }

@@ -160,7 +160,7 @@ public class NewContact extends AppCompatActivity {
         Map<String,Object> childUpdates=new HashMap<>();
         Map<String,Object> postValues=null;
         if(add){
-            FirebasePost post=new FirebasePost(name,number);
+            FirebasePost post=new FirebasePost(name,number,address);
             postValues=post.toMap();
         }
         childUpdates.put("/name_list/"+name,postValues);
@@ -171,7 +171,9 @@ public class NewContact extends AppCompatActivity {
     public void clearET(){
         nameET.setText("");
         numberET.setText("");
+        addressET.setText("");
         name="";
         number="";
+        address="";
     }
 }
