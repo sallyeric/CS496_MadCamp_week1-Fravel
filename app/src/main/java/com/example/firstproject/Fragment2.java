@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class Fragment2  extends Fragment {
+public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelectedInterface, ImageAdapter.OnListItemLongSelectedInterface{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,13 +57,23 @@ public class Fragment2  extends Fragment {
     }
 
     @Override
+    public void onItemSelected(View v, int position) {
+        ImageAdapter.ViewHolder viewHolder = (ImageAdapter.ViewHolder)recyclerView.findViewHolderForAdapterPosition(position);
+        Toast.makeText(getActivity().getApplicationContext(), position+"pressed!" , Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemLongSelected(View v, int position) {
+        Toast.makeText(getActivity().getApplicationContext(), position + " long clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -82,7 +93,7 @@ public class Fragment2  extends Fragment {
         ArrayList imageUrlList = prepareData();
         mGalleryManager = new GalleryManager(getActivity().getApplicationContext());
         ArrayList<imgFormat> localPhotoList = mGalleryManager.getAllPhotoPathList();
-        ImageAdapter dataAdapter = new ImageAdapter(getActivity().getApplicationContext(), imageUrlList, localPhotoList);
+        ImageAdapter dataAdapter = new ImageAdapter(getActivity().getApplicationContext(), imageUrlList, localPhotoList, this, this);
         recyclerView.setAdapter(dataAdapter);
 
         // Inflate the layout for this fragment

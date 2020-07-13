@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -122,6 +123,11 @@ public class Fragment1 extends Fragment {
                     adapter = new SimpleTextAdapter(context1, list);
                     recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
                     recyclerView.setAdapter(adapter);
+
+                    DividerItemDecoration dividerItemDecoration =
+                            new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(context1).getOrientation());
+                    recyclerView.addItemDecoration(dividerItemDecoration);
+
                     getFirebaseDatabase();
 
                 } else {
