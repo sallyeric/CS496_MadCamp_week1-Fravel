@@ -48,8 +48,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,8 +87,13 @@ public class Fragment3  extends Fragment
     //double userLong=0.0F;
     //double userLat=0.0F;
     String sort="userInfo";
-    ArrayList<String> data;
-    ArrayAdapter<String> arrayAdapter;
+    //ArrayList<String> data;
+
+    String name="";
+    String lat="";
+    String lng="";
+    ArrayList<Item2> list = new ArrayList<>();
+    ArrayAdapter<String> adapter;
 
     Button btn;
     ////////////////////////////////////////////////////////////////
@@ -92,8 +101,8 @@ public class Fragment3  extends Fragment
     ////////////////////////////////////////////////////////////////
     private GoogleMap mMap;
     ArrayList<LatLng>arrayList=new ArrayList<LatLng>();
-    LatLng suwon=new LatLng(36.3711705,127.36234309999999);
-    LatLng busan=new LatLng(36.3732444,127.36070219999999);
+    //LatLng suwon=new LatLng(36.3711705,127.36234309999999);
+    //LatLng busan=new LatLng(36.3732444,127.36070219999999);
     private Marker currentMarker = null;
 
     private static final String TAG = "googlemap_example";
@@ -193,25 +202,25 @@ public class Fragment3  extends Fragment
 
         ///////////////////////////사용자 정보////////////////////////////
 
-        btn=(Button)v.findViewById(R.id.button1);
+        //btn=(Button)v.findViewById(R.id.button1);
 
         Context context4 = v.getContext();
-        AccountManager am = AccountManager.get(context4); // "this" references the current Context
-        Account[] accounts = am.getAccountsByType("com.google");
-        //Log.d("UserInformation",accounts.toString());
-        userInfo=accounts.toString();
+//        AccountManager am = AccountManager.get(context4); // "this" references the current Context
+//        Account[] accounts = am.getAccountsByType("com.google");
+//        //Log.d("UserInformation",accounts.toString());
+//        userInfo=accounts.toString();
 
-        data=new ArrayList<String>();
-
+//        data=new ArrayList<String>();
+//
         mPostReference= FirebaseDatabase.getInstance().getReference();
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context3 = v.getContext();
-                Toast.makeText(context3,"button success", Toast.LENGTH_SHORT).show();
-                postFirebaseUserInfo(true);
-            }
-        });
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Context context3 = v.getContext();
+//                Toast.makeText(context3,"button success", Toast.LENGTH_SHORT).show();
+//                postFirebaseUserInfo(true);
+//            }
+//        });
 
         ////////////////////////////////////////////////////////////////
 
@@ -234,22 +243,73 @@ public class Fragment3  extends Fragment
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync((OnMapReadyCallback) this);
 
-        arrayList.add(suwon);
-        arrayList.add(busan);
+        //arrayList.add(suwon);
+        //arrayList.add(busan);
 
         //장소찾기 버튼
         previous_marker = new ArrayList<Marker>();
 
-        Button button = (Button)v.findViewById(R.id.button);
+        ///////////////////////////Firebase////////////////////////////////////
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
+        final Query query=ref.orderByChild("name");
+
+        Button button = (Button)v.findViewById(R.id.markerbutton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPlaceInformation(currentPosition);
+                //showPlaceInformation(currentPosition);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                            // TODO: handle the post
+                            Log.d("PLACE NAME: ",query.toString());
+                            //Log.d("PLACE LAT: ",);
+                            //Log.d("PLACE LNG: ",);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+        //////////////////////////////////////////////////////////////////////
 
         return v;
     }
+
+    /////////////////////////////////////GetData///////////////////////////////////////////
+//    public void getFirebaseDatabase(){
+//        final ValueEventListener postListener=new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Log.d("onDataChange","Data is Updated");
+//                list.clear();
+//                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+//                    String key=postSnapshot.getKey();
+//                    FirebasePlace get=postSnapshot.getValue(FirebasePlace.class);
+//                    String[] info={get.name,get.lat,get.lng};
+//                    Item2 result= new Item2(info[0],info[1],info[2]); //수정 !!!
+//
+//                    list.add(result);
+//                    Log.d("getFirebaseDatabase","key: "+key);
+//                    Log.d("getFirebaseDatabase","info: "+info[1]+" "+info[2]);
+//                    Log.d("ListSize",String.valueOf(list.size()));
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        };
+//
+//        mPostReference.child("place_list").addValueEventListener(postListener);
+//    }
+    ///////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////기타 함수들//////////////////////////////////////////////////
@@ -393,22 +453,22 @@ public class Fragment3  extends Fragment
 
     //////////////////////////////PostFirebaseUser//////////////////////////////////////////
 
-    public void postFirebaseUserInfo(boolean add){
-        Map<String,Object> childUpdates=new HashMap<>();
-        Map<String,Object> postValues=null;
-        if(add){
-            Log.d("UserInformation",userInfo);
-            FirebaseUserInfo post = new FirebaseUserInfo("userInfo");
-            postValues=post.toMap();
-        }
-        childUpdates.put("/user_list/"+"userInfo",postValues);
-        mPostReference.updateChildren(childUpdates);
-        //clearET();
-    }
+//    public void postFirebaseUserInfo(boolean add){
+//        Map<String,Object> childUpdates=new HashMap<>();
+//        Map<String,Object> postValues=null;
+//        if(add){
+//            Log.d("UserInformation",userInfo);
+//            FirebaseUserInfo post = new FirebaseUserInfo("userInfo");
+//            postValues=post.toMap();
+//        }
+//        childUpdates.put("/user_list/"+"userInfo",postValues);
+//        mPostReference.updateChildren(childUpdates);
+//        //clearET();
+//    }
 
-    public void clearET(){
-        userInfo="";
-    }
+//    public void clearET(){
+//        userInfo="";
+//    }
     ////////////////////////////////////////////////////////////////////////////////////////
 
     private void startLocationUpdates() {

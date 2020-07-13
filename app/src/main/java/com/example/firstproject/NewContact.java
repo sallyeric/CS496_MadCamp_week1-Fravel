@@ -114,6 +114,7 @@ public class NewContact extends AppCompatActivity {
                                 // username not found
                                 Toast.makeText(NewContact.this,"add success", Toast.LENGTH_SHORT).show();
 
+                                postFirebaseDatabase2(true);
                                 postFirebaseDatabase(true);
 
                                 //Image upload
@@ -217,12 +218,12 @@ public class NewContact extends AppCompatActivity {
         Map<String,Object> childUpdates=new HashMap<>();
         Map<String,Object> postValues=null;
         if(add){
-            FirebasePlace post=new FirebasePlace(name,lat,lng);
+            FirebasePlace post=new FirebasePlace(name,templat,templon);
             postValues=post.toMap();
         }
         childUpdates.put("/place_list/"+name,postValues);
         mPostReference.updateChildren(childUpdates);
-        clearET();
+        //clearET();
     }
 
     public void clearET(){
