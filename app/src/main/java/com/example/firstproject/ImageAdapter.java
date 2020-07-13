@@ -2,23 +2,17 @@ package com.example.firstproject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
@@ -30,7 +24,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
     private OnListItemSelectedInterface mListener;
     private OnListItemLongSelectedInterface mLongListener;
-
 
     private ArrayList<ImageUrl> imageUrls;
     private Context context;
@@ -86,7 +79,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 public void onClick(View v){
                     int position = getAdapterPosition();
                     mListener.onItemSelected(v, position); // getAdapterPosition이었음
+
                     Log.d("Recyclerview", "position="+getAdapterPosition());
+
+                    Intent fullScreenIntent=new Intent(context, FullScreenActivity.class);
+                    fullScreenIntent.putExtra("image_url", localPhotoList.get(position).getImgPath());
+                    context.startActivity(fullScreenIntent);
                 }
             });
             view.setOnLongClickListener(new View.OnLongClickListener(){

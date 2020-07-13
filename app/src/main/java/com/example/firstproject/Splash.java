@@ -1,7 +1,6 @@
 package com.example.firstproject;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -53,7 +51,7 @@ public class Splash extends AppCompatActivity {
                 }
 
             }
-        }, 3000);
+        }, 1000);
     }
 
     public void LaunchApp()
@@ -195,7 +193,7 @@ public class Splash extends AppCompatActivity {
                         startActivityForResult(intent, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
                         finish();
                     }
-                }, 3000);
+                }, 1000);
             }
         }
     }

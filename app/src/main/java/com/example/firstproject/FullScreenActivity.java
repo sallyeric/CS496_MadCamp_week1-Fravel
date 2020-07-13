@@ -1,27 +1,37 @@
 package com.example.firstproject;
 
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
-import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class FullScreenActivity {
-    //@Override
+import com.bumptech.glide.Glide;
+
+public class FullScreenActivity extends AppCompatActivity{
+    @Override
     protected void onCreate(Bundle savedInstanceState){
-        /*
         super.onCreate(savedInstanceState);
-        setContextView(R.layout.full_screen_image);
-        ImageView fullScreenImageView = (ImageView) findViewById(R.id.fullScreenImageView);
-        Intent callingActivityIntent=getIntent();
-        callingActivityIntent.getExtras().getstring('imgPath');
-
-        String[] paths;
-        paths = callingActivityIntent.getExtras().getStringArray("paths");
-        int position = callingActivityIntent.getExtras().getInt("position");
-        ViewPager = viewPager;
-        viewPager =
-*/
+        setContentView(R.layout.full_screen_image);
+        Log.d("FullScreenActivity","onCreate:started");
+        getIncomingIntent();
     }
+    private void getIncomingIntent(){
+        Log.d("FULL", "getIncomingIntent: check");
+        String imageUrl = getIntent().getStringExtra("image_url");
+        setImage(imageUrl);
+    }
+    private void setImage(String imageUrl){
+        Log.d("FULL","full screen image to " + imageUrl);
+        ImageView img = findViewById(R.id.fullScreenImageView);
+        Log.d("FULL","img view success");
+
+        Glide.with(this)
+                //.load(imageUrls.get(i).getImageUrl()) // 웹 이미지 로드
+                .load(imageUrl) // imageUrl
+                .error(R.drawable.imagenotfound)
+                .into(img);
+
+    }
+
 }

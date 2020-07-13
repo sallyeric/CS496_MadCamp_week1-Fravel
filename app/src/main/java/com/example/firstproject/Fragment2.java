@@ -1,13 +1,10 @@
 package com.example.firstproject;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,6 +26,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
     private GalleryManager mGalleryManager;
+    public ArrayList<imgFormat> localPhotoList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -59,13 +57,15 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
     @Override
     public void onItemSelected(View v, int position) {
         ImageAdapter.ViewHolder viewHolder = (ImageAdapter.ViewHolder)recyclerView.findViewHolderForAdapterPosition(position);
-        Toast.makeText(getActivity().getApplicationContext(), position+"pressed!" , Toast.LENGTH_SHORT).show(); //여기
-
+        //Toast.makeText(getActivity().getApplicationContext(), position+" pressed!" , Toast.LENGTH_SHORT).show(); //여기
+        //Intent fullScreenIntent=new Intent(getActivity().getApplicationContext(), FullScreenActivity.class);
+        //fullScreenIntent.putExtra("imgPath", position);
+        //v.imageView.getContext().startActivity(fullScreenIntent);
     }
 
     @Override
     public void onItemLongSelected(View v, int position) {
-        Toast.makeText(getActivity().getApplicationContext(), position + " long clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), position + " long pressed!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
 
         ArrayList imageUrlList = prepareData();
         mGalleryManager = new GalleryManager(getActivity().getApplicationContext());
-        ArrayList<imgFormat> localPhotoList = mGalleryManager.getAllPhotoPathList();
+        localPhotoList = mGalleryManager.getAllPhotoPathList();
         ImageAdapter dataAdapter = new ImageAdapter(getActivity().getApplicationContext(), imageUrlList, localPhotoList, this, this);
         recyclerView.setAdapter(dataAdapter);
 

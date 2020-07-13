@@ -62,8 +62,7 @@ import noman.googleplaces.PlacesException;
 import noman.googleplaces.PlacesListener;
 
 public class Fragment3  extends Fragment
-        implements OnMapReadyCallback ,
-        ActivityCompat.OnRequestPermissionsResultCallback,
+        implements OnMapReadyCallback , ActivityCompat.OnRequestPermissionsResultCallback,
         PlacesListener {
 
     ////////////////////////////////////////////////////////////////
