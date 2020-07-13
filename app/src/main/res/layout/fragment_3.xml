@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     android:id="@+id/layout_main"
     tools:context=".Fragment3">
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,11 +21,15 @@
         </fragment>
 
         <Button
+            android:text="장소검색"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/button"/>
+
+        <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:text="Add"/>
-
     </LinearLayout>
-
 </FrameLayout>

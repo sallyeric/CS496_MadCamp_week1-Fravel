@@ -3,21 +3,25 @@ package com.example.firstproject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,16 +30,24 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 
-public class Fragment1 extends Fragment {
+public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemLongSelectedInterface, SimpleTextAdapter.OnListItemSelectedInterface{
 
     private RecyclerView recyclerView;                                                              // RV
 
+    /////////////////////////////////////////////////////////
+    private GoogleMap mMap;
+    private Geocoder geocoder;
+    private Button button;
+    private EditText editText;
+    /////////////////////////////////////////////////////////
 
     // 옮겨온 변수들
     private DatabaseReference mPostReference;
     String name="";
     String number="";
+    String address="";
     ListView listView;
 
     //ArrayList<Item> list; // 아래에 수정
@@ -83,6 +95,20 @@ public class Fragment1 extends Fragment {
     }
 
     @Override
+    public void onItemSelected(View v, int position) {
+        SimpleTextAdapter.Holder viewHolder = (SimpleTextAdapter.Holder)recyclerView.findViewHolderForAdapterPosition(position);
+        Toast.makeText(this.getContext(),  " long clicked", Toast.LENGTH_SHORT).show();
+        Log.d("test","long clicked");
+    }
+
+    @Override
+    public void onItemLongSelected(View v, int position) {
+        Toast.makeText(this.getContext(), " long clicked", Toast.LENGTH_SHORT).show();
+        Log.d("test","clicked");
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -101,13 +127,13 @@ public class Fragment1 extends Fragment {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("name_list");
         final Query query = ref.orderByChild("name");
 
-        //Context context1 = v.getContext();                                                            // Context 수정
-        //list = Item.createContactsList(5);
+        Context context1 = v.getContext();                                                            // Context 수정
+        list = Item.createContactsList(5);
         //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
-        //recyclerView.setHasFixedSize(true);
-        //adapter = new SimpleTextAdapter(context1, list);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
-        //recyclerView.setAdapter(adapter);                                                           // RV
+        recyclerView.setHasFixedSize(true);
+        adapter = new SimpleTextAdapter(context1, list, this, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
+        recyclerView.setAdapter(adapter);                                                           // RV
 
         //listView.setAdapter(adapter);                                                             // RV
 
@@ -116,18 +142,13 @@ public class Fragment1 extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getChildrenCount() > 0) {
                     //username found
-                    Context context1 = v.getContext();                                                            // Context 수정
-                    list = Item.createContactsList(5);
+                    //Context context1 = v.getContext();                                                            // Context 수정
+                    //list = Item.createContactsList(5);
                     //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
-                    recyclerView.setHasFixedSize(true);
-                    adapter = new SimpleTextAdapter(context1, list);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
-                    recyclerView.setAdapter(adapter);
-
-                    DividerItemDecoration dividerItemDecoration =
-                            new DividerItemDecoration(recyclerView.getContext(), new LinearLayoutManager(context1).getOrientation());
-                    recyclerView.addItemDecoration(dividerItemDecoration);
-
+                    //recyclerView.setHasFixedSize(true);
+                    //adapter = new SimpleTextAdapter(context1, list, this , this);
+                    //recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
+                    //recyclerView.setAdapter(adapter);
                     getFirebaseDatabase();
 
                 } else {
@@ -141,6 +162,7 @@ public class Fragment1 extends Fragment {
                 //Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         ImageButton newContact = (ImageButton) v.findViewById(R.id.newContact);
         newContact.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +207,6 @@ public class Fragment1 extends Fragment {
         mPostReference.child("name_list").addValueEventListener(postListener);
     }
 
-        //return v;
+    //return v;
 
 }
