@@ -22,14 +22,17 @@ public class GeocodingLocation {
             public void run() {
                 Geocoder geocoder = new Geocoder(context, Locale.getDefault());
                 String result = null;
+                double lat0=0;
+                double lon0=0;
                 try {
-                    List
-                            addressList = geocoder.getFromLocationName(locationAddress, 1);
+                    List addressList = geocoder.getFromLocationName(locationAddress, 1);
                     if (addressList != null && addressList.size() > 0) {
                         Address address = (Address) addressList.get(0);
                         StringBuilder sb = new StringBuilder();
                         sb.append(address.getLatitude()).append("\n");
                         sb.append(address.getLongitude()).append("\n");
+                        lat0 = address.getLatitude();
+                        lon0 = address.getLongitude();
                         result = sb.toString();
                     }
                 } catch (IOException e) {
@@ -43,6 +46,8 @@ public class GeocodingLocation {
                         result = "Address: " + locationAddress +
                                 "\n\nLatitude and Longitude :\n" + result;
                         bundle.putString("address", result);
+                        bundle.putString("lat", String.valueOf(lat0));
+                        bundle.putString("lon", String.valueOf(lon0));
                         message.setData(bundle);
                     } else {
                         message.what = 1;

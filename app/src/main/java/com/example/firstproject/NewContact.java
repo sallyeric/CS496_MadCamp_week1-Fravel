@@ -1,11 +1,6 @@
 package com.example.firstproject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,11 +15,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.maps.MapView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +42,8 @@ public class NewContact extends AppCompatActivity {
     String sort="name";
     EditText nameET,numberET, reviewET;
     Button btn; //??
+
+    String templat="", templon="";
 
     Button searchButton;
 
@@ -83,8 +79,7 @@ public class NewContact extends AppCompatActivity {
                 String address = editText.getText().toString();
 
                 GeocodingLocation locationAddress = new GeocodingLocation();
-                locationAddress.getAddressFromLocation(address,
-                        getApplicationContext(), new GeocoderHandler());
+                locationAddress.getAddressFromLocation(address, getApplicationContext(), new GeocoderHandler());
 
             }
         });
@@ -98,6 +93,7 @@ public class NewContact extends AppCompatActivity {
                 name=nameET.getText().toString();
                 number=numberET.getText().toString();
                 review=reviewET.getText().toString();
+                Log.d("upload", templat+" "+templon);
 
                 // 버튼 클릭시 존재하는 아이디인지 ??
                 if((name.length()*number.length())==0){
@@ -176,15 +172,22 @@ public class NewContact extends AppCompatActivity {
                 case 1:
                     Bundle bundle = message.getData();
                     locationAddress = bundle.getString("address");
-                    Log.d("BUNDLE: ",bundle.toString());
+                    Log.d("newcontact bundle", locationAddress);
+                    String temp1 = bundle.getString("lat");
+                    Log.d("bundle1",temp1);
+                    String temp2 = bundle.getString("lon");
+                    Log.d("bundle1",temp2);
+
+                    templat=temp1;
+                    templon=temp2;
+
                     break;
                 default:
                     locationAddress = null;
             }
-            //latLongTV.setText(locationAddress);
-            //postFirebaseDatabase2(true);
         }
     }
+
     //////////////////////////////////////////////////////////////////////////
 
     @Override
