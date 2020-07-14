@@ -205,7 +205,7 @@ public class Fragment3  extends Fragment
         addressTV = (TextView) v.findViewById(R.id.addressTV);
         latLongTV = (TextView) v.findViewById(R.id.latLongTV);
 
-        EditText editText = (EditText) v.findViewById(R.id.addressET);
+        final EditText editText = (EditText) v.findViewById(R.id.addressET);
         editText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -281,7 +281,7 @@ public class Fragment3  extends Fragment
         previous_marker = new ArrayList<Marker>();
 
         ///////////////////////////Firebase////////////////////////////////////
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
+        final DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
         final Query query=ref.orderByChild("name");
 
         Button button = (Button)v.findViewById(R.id.markerbutton);
@@ -320,14 +320,14 @@ public class Fragment3  extends Fragment
         //////////////////////////////////////////////////////////////////////
 
         //////////////////////////Set Score////////////////////////////////////////
-        DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("rank_list");
-        final Query query2=ref.orderByChild("name");
+        final DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("score_list");
+        final Query query2=ref2.orderByChild("name");
 
         addressButton = (ImageButton)v.findViewById(R.id.addressButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        addressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                query2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
@@ -335,11 +335,47 @@ public class Fragment3  extends Fragment
                             String key=postSnapshot.getKey();
                             FirebaseScore get=postSnapshot.getValue(FirebaseScore.class);
                             String[] info={get.name,get.score};
+                            //Log.d("POST[0]",postSnapshot.getKey());
                             //Item result= new Item(info[0],info[1],); //수정 !!!
-                            int currentScore=Integer.parseInt(info[1]);
-                            currentScore++;
-                            score=Integer.toString(currentScore);
-                            postFirebaseDatabase2(true);
+                            if(info[0].equals(editText.getText().toString())){
+                                Log.d("POST[0]if",postSnapshot.getKey());
+                                name=editText.getText().toString();
+                                int currentScore=Integer.parseInt(info[1]);
+                                currentScore+=1;
+                                Log.d("userName",info[0]);
+                                Log.d("currentScore",String.valueOf(currentScore));
+                                score=Integer.toString(currentScore);
+
+                                //postFirebaseDatabase2(true);
+
+                                Map<String,Object> childUpdates=new HashMap<>();
+                                Map<String,Object> postValues=null;
+                                Log.d("scoreUpdate->", String.valueOf(score));
+                                FirebaseScore post=new FirebaseScore(info[0],score);
+                                postValues=post.toMap();
+                                Log.d("scoreUpdate", String.valueOf(postValues));
+                                childUpdates.put("/score_list/"+info[0], postValues);
+                                mPostReference.updateChildren(childUpdates);
+                                //Query query3=ref2.orderByChild("name").equalTo(name).
+                                //ref2.child(name).child("score").updateChildren(name,score);
+                            }
+                            else{
+                                Log.d("POST[0]else",postSnapshot.getKey());
+                                name=editText.getText().toString();
+                                int currentScore=1;
+                                score=Integer.toString(currentScore);
+                                Log.d("scoreUpdate->else", String.valueOf(score));
+
+                                Map<String,Object> childUpdates=new HashMap<>();
+                                Map<String,Object> postValues=null;
+                                Log.d("scoreUpdate->", String.valueOf(score));
+                                FirebaseScore post=new FirebaseScore(info[0],score);
+                                postValues=post.toMap();
+                                Log.d("scoreUpdate", String.valueOf(postValues));
+                                childUpdates.put("/score_list/"+info[0], postValues);
+                                mPostReference.updateChildren(childUpdates);
+                            }
+
                         }
                     }
                     @Override
@@ -361,6 +397,7 @@ public class Fragment3  extends Fragment
             FirebaseScore post=new FirebaseScore(name,score);
             postValues=post.toMap();
         }
+        Log.d("scoreUpdatepp", String.valueOf(postValues));
         childUpdates.put("/score_list/"+name,postValues);
         mPostReference.updateChildren(childUpdates);
         //clearET();
@@ -382,10 +419,8 @@ public class Fragment3  extends Fragment
         }catch (IOException e){
             Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
         }
-
         if(list.size() > 0){
             Address address = list.get(0);
-
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
 
@@ -442,7 +477,6 @@ public class Fragment3  extends Fragment
 //
 //            }
 //        };
-//
 //        mPostReference.child("place_list").addValueEventListener(postListener);
 //    }
     ///////////////////////////////////////////////////////////////////////////////////////
