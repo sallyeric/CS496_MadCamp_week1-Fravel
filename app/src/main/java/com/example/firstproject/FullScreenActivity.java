@@ -35,12 +35,14 @@ public class FullScreenActivity extends AppCompatActivity{
         Log.d("FULL", "getIncomingIntent: check");
         String imageUrl = getIntent().getStringExtra("image_url");
         String imagetitle = getIntent().getStringExtra("image_title");
-        setImage(imageUrl, imagetitle);
+        String imagereview = getIntent().getStringExtra("image_review");
+        setImage(imageUrl, imagetitle, imagereview);
     }
-    private void setImage(String imageUrl, String title){
+    private void setImage(String imageUrl, String title, String review){
         Log.d("FULL","full screen image to " + imageUrl);
         ImageView img = findViewById(R.id.fullScreenImageView);
         TextView img_title = findViewById(R.id.imgtitle);
+        TextView img_review = findViewById(R.id.imgreview);
 
         Log.d("FULL","img view success");
 
@@ -51,7 +53,9 @@ public class FullScreenActivity extends AppCompatActivity{
                 .error(R.drawable.imagenotfound)
                 .into(img);
         img_title.setText(title);
-        Log.d("FULL","image tile="+title);
+        img_review.setText("\""+review+"\"");
+        Log.d("FULL","image_tile="+title);
+        Log.d("FULL","image_review="+review);
     }
 
 }
