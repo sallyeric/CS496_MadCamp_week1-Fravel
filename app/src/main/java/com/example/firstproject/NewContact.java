@@ -213,14 +213,25 @@ public class NewContact extends AppCompatActivity {
                 case 1:
                     Bundle bundle = message.getData();
                     locationAddress = bundle.getString("address");
-                    Log.d("newcontact bundle", locationAddress);
-                    String temp1 = bundle.getString("lat");
-                    Log.d("bundle1",temp1);
-                    String temp2 = bundle.getString("lon");
-                    Log.d("bundle1",temp2);
+//                    Log.d("newcontact bundle", locationAddress);
+//                    String temp1 = bundle.getString("lat");
+//                    Log.d("bundle1",temp1);
+//                    String temp2 = bundle.getString("lon");
+//                    Log.d("bundle1",temp2);
+                    if(bundle.getString("lat")!=null&&bundle.getString("lon")!=null){//예외처리
+                        String temp1 = bundle.getString("lat");
+                        String temp2 = bundle.getString("lon");
+                        templat=temp1;
+                        templon=temp2;
+                        numberET.setEnabled(true);
+                        reviewET.setEnabled(true);
+                    }else{
+                        templat="0";
+                        templon="0";
+                    }
 
-                    templat=temp1;
-                    templon=temp2;
+//                    templat=temp1;
+//                    templon=temp2;
 
                     break;
                 default:
