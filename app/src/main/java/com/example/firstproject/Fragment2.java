@@ -1,5 +1,6 @@
 package com.example.firstproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -184,6 +186,18 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
             }
         });
 
+        ImageButton newContact = (ImageButton) v.findViewById(R.id.newContact);
+        newContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Intent
+                Context context2 = v.getContext();                                                    // Context 수정
+                Intent newPostIntent = new Intent(context2, NewContact.class);
+                startActivity(newPostIntent);
+            }
+        });
+        return v;
+
         //ArrayList firebaseimglist = prepareData();
         /*
         mGalleryManager = new GalleryManager(getActivity().getApplicationContext());
@@ -193,7 +207,6 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
          */
 
         // Inflate the layout for this fragment
-        return v;
     }
 /*
     private ArrayList prepareData() {

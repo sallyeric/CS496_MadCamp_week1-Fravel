@@ -1,8 +1,6 @@
 package com.example.firstproject;
 
 import android.Manifest;
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -52,24 +49,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -85,7 +75,7 @@ public class Fragment3  extends Fragment
         ActivityCompat.OnRequestPermissionsResultCallback{
 
     ////////////////////////////geocoding////////////////////////////
-    ImageButton addressButton;
+    ImageButton likeButton;
     TextView addressTV;
     TextView latLongTV;
     EditText editText;
@@ -264,7 +254,7 @@ public class Fragment3  extends Fragment
         final DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
         final Query query=ref.orderByChild("name");
 
-        Button button = (Button)v.findViewById(R.id.markerbutton);
+        ImageButton button = (ImageButton)v.findViewById(R.id.likeButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -303,8 +293,8 @@ public class Fragment3  extends Fragment
         final DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("score_list");
         final Query query2=ref2.orderByChild("name");
 
-        addressButton = (ImageButton)v.findViewById(R.id.addressButton);
-        addressButton.setOnClickListener(new View.OnClickListener() {
+        likeButton = (ImageButton)v.findViewById(R.id.likeButton);
+        likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 query2.addListenerForSingleValueEvent(new ValueEventListener() {

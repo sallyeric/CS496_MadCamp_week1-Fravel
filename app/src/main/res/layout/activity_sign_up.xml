@@ -95,7 +95,7 @@
             android:textSize="15dp"
             android:textColor="#FFF"
             android:textStyle="bold"
-            android:text="Birthday"
+            android:text="Birthday (Optional)"
             android:fontFamily="@font/gillsans"
             />
 
@@ -128,17 +128,17 @@
             android:inputType="textEmailAddress"
             android:textColor="#FFF"/>
 
-
-        <Button
+        <TextView
             android:id="@+id/signupButton"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:text="Sign Up"
             android:textSize="20dp"
-            android:textColor="#FFF"
+            android:gravity="center"
+            android:textColor="@color/color1"
             android:fontFamily="@font/gillsansb"
-            android:background="@drawable/rounded_button_white"
+            android:background="@drawable/circle_button3"
             />
 
     </LinearLayout>

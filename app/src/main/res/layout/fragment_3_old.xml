@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Search"
-                android:id="@+id/addressButton"
+                android:id="@+id/likeButton"
                 android:layout_below="@+id/addressTV"
                 android:layout_toEndOf="@+id/addressTV"
                 android:background="@drawable/custom_rounded_button" />

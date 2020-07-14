@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -48,7 +49,7 @@ public class SignUp extends AppCompatActivity {
 
         mPostReference= FirebaseDatabase.getInstance().getReference();
 
-        Button login = (Button)findViewById(R.id.signupButton);
+        TextView login = (TextView) findViewById(R.id.signupButton);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,11 +81,14 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this,"You can use this username", Toast.LENGTH_SHORT).show();
 
                                 postFirebaseDatabase(true);
+                                finish();
                                 //Intent
+                                /*
                                 EditText username = (EditText)findViewById(R.id.signupUsername);
                                 Intent signupIntent = new Intent(SignUp.this, LoginActivity.class);
                                 signupIntent.putExtra("Username", username.getText().toString());
                                 startActivity(signupIntent);
+                                 */
                             }
 
                         }

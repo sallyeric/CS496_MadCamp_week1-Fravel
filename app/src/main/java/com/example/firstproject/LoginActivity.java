@@ -1,9 +1,12 @@
 package com.example.firstproject;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         passwordET=(EditText) findViewById(R.id.password);
 
         mPostReference= FirebaseDatabase.getInstance().getReference();
+        //View view = getWindow().getDecorView();
+        getWindow().setStatusBarColor(Color.parseColor("#EC5176"));
 
         if(getIntent().getExtras() != null){
             EditText username = (EditText)findViewById(R.id.userid);
@@ -46,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             username.setText(signupIntent.getStringExtra("Username"));
         }
 
-        Button login = (Button)findViewById(R.id.loginButton);
+        TextView login = (TextView) findViewById(R.id.loginButton);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
