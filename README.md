@@ -25,5 +25,5 @@ https://docs.google.com/document/d/1zV8aeyqxHAsjCEAaZWlb4dpmD02plhq_aMRHoIKuz5Q/
 
 
 ## Collaborators
-* [Youngjae, Jang]https://github.com/youngjae99
-* [Seunghyeon, Jin]https://github.com/sallyeric
+* [Youngjae, Jang](https://github.com/youngjae99)
+* [Seunghyeon, Jin](https://github.com/sallyeric)
