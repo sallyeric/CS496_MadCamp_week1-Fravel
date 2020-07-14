@@ -122,7 +122,7 @@ public class NewContact extends AppCompatActivity {
                                 Toast.makeText(NewContact.this,"add success", Toast.LENGTH_SHORT).show();
 
                                 postFirebaseDatabase2(true);
-                                postFirebaseDatabase(true, img);
+                                //postFirebaseDatabase(true, img);
 
                                 //Image upload
                                 if(check){
