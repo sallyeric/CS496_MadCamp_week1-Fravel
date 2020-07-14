@@ -201,6 +201,8 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
                     Log.d("ListSize",String.valueOf(list.size()));
                     ImageUrl imageUrl = new ImageUrl();
                     imageUrl.setImageUrl(info[2]);
+                    imageUrl.setImageTitle(info[0]);
+
                     imageUrlList.add(imageUrl);
                 }
                 adapter.notifyDataSetChanged();

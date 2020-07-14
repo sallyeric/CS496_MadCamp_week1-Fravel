@@ -156,6 +156,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
                     if(info[2]!=null){
                         ImageUrl imageUrl = new ImageUrl();
                         imageUrl.setImageUrl(info[2]);
+                        imageUrl.setImageTitle(info[0]);
                         imageUrlList.add(imageUrl);
                         Log.d("imgSaved", String.valueOf(imageUrlList.size()));
                     }
