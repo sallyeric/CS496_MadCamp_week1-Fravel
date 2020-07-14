@@ -10,9 +10,9 @@
         android:id="@+id/splashLogo"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:src="@drawable/ic_new_logo_mult"
-        android:layout_marginBottom="800dp"
         android:tint="@color/color1" />
 
     <TextView

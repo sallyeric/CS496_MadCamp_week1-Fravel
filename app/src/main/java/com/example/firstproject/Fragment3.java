@@ -76,6 +76,7 @@ public class Fragment3  extends Fragment
 
     ////////////////////////////geocoding////////////////////////////
     ImageButton likeButton;
+    ImageButton lookforButton;
     TextView addressTV;
     TextView latLongTV;
     EditText editText;
@@ -244,8 +245,10 @@ public class Fragment3  extends Fragment
         final DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
         final Query query=ref.orderByChild("name");
 
-        ImageButton button = (ImageButton)v.findViewById(R.id.likeButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        likeButton = (ImageButton)v.findViewById(R.id.likeButton);
+        lookforButton = (ImageButton)v.findViewById(R.id.lookforButton);
+
+        lookforButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //showPlaceInformation(currentPosition);
@@ -296,7 +299,7 @@ public class Fragment3  extends Fragment
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             // TODO: handle the post
                             String key=postSnapshot.getKey();
-                            FirebaseScore get=postSnapshot.getValue(FirebaseScore.class);
+                            FirebaseScore get=postSnapshot.getValue(FirebaseScore .class);
                             String[] info={get.name,get.score};
                             //Log.d("POST[0]",postSnapshot.getKey());
                             //Item result= new Item(info[0],info[1],); //수정 !!!
@@ -416,6 +419,7 @@ public class Fragment3  extends Fragment
                             getActivity().getApplicationContext(), new GeocoderHandler());
 
 
+
                     LatLng SEARCHED_PLACE = new LatLng(lat, lng);
 
                     MarkerOptions markerOptions = new MarkerOptions();
@@ -430,65 +434,6 @@ public class Fragment3  extends Fragment
                     mMap.addMarker(markerOptions);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(SEARCHED_PLACE));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-
-                    query2.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String nowText = editText.getText().toString();
-                            Boolean found=false;
-                            for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                                // TODO: handle the post
-                                String key=postSnapshot.getKey();
-                                FirebaseScore get=postSnapshot.getValue(FirebaseScore.class);
-                                String[] info={get.name,get.score};
-                                //Log.d("POST[0]",postSnapshot.getKey());
-                                //Item result= new Item(info[0],info[1],); //수정 !!!
-                                // info[0] -> place list안에 들어가있는 이름들
-                                if(info[0].equals(nowText)){
-                                    found=true;
-                                    Log.d("POST[0]if",postSnapshot.getKey());
-                                    name=editText.getText().toString();
-                                    int currentScore=Integer.parseInt(info[1]);
-                                    currentScore+=1;
-                                    Log.d("userName",info[0]);
-                                    Log.d("currentScore",String.valueOf(currentScore));
-                                    score=Integer.toString(currentScore);
-
-                                    Map<String,Object> childUpdates=new HashMap<>();
-                                    Map<String,Object> postValues=null;
-                                    Log.d("scoreUpdate->", String.valueOf(score));
-                                    FirebaseScore post=new FirebaseScore(info[0],score);
-                                    postValues=post.toMap();
-                                    Log.d("scoreUpdate", String.valueOf(postValues));
-                                    childUpdates.put("/score_list/"+info[0], postValues);
-                                    mPostReference.updateChildren(childUpdates);
-                                    //Query query3=ref2.orderByChild("name").equalTo(name).
-                                    //ref2.child(name).child("score").updateChildren(name,score);
-                                }
-                            }
-                            if(found==false){
-
-                                name=nowText;
-                                int currentScore=1;
-                                score=Integer.toString(currentScore);
-                                Log.d("scoreUpdate->else", String.valueOf(score));
-
-                                Map<String,Object> childUpdates=new HashMap<>();
-                                Map<String,Object> postValues=null;
-                                Log.d("scoreUpdate->", String.valueOf(score));
-                                FirebaseScore post=new FirebaseScore(name, score);
-                                postValues=post.toMap();
-                                Log.d("scoreUpdate", String.valueOf(postValues));
-                                childUpdates.put("/score_list/"+nowText, postValues);
-                                mPostReference.updateChildren(childUpdates);
-                            }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
                     break;
             }
             return false;
@@ -538,7 +483,10 @@ public class Fragment3  extends Fragment
             //latLongTV.setText(locationAddress);
 
             Log.d("location", "latlng"+ lat+" / "+lng);
-
+            if(lat==null || lng==null){
+                Log.d("location","null error!");
+                return;
+            }
             LatLng SEARCHED_PLACE = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
             /*
             MarkerOptions markerOptions = new MarkerOptions();
