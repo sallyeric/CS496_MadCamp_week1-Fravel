@@ -5,14 +5,14 @@ import java.util.Map;
 
 public class FirebasePlace {
     public String name; //수정
-    public double lat;
-    public double lng;
+    public String lat;
+    public String lng;
 
     public FirebasePlace(){
 
     }
 
-    public FirebasePlace(String name, double lat, double lng){ //수정
+    public FirebasePlace(String name, String lat, String lng){ //수정
         this.name=name;
         this.lat=lat;
         this.lng=lng;

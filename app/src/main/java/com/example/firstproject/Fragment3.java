@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -52,8 +54,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -80,26 +86,33 @@ public class Fragment3  extends Fragment
     Button addressButton;
     TextView addressTV;
     TextView latLongTV;
+    EditText editText;
+
     /////////////////////////////////////////////////////////////////
 
 
     ////////////////////////////////////////////////////////////////
     private DatabaseReference mPostReference;
-    String userInfo="";
-    //double userLong=0.0F;
-    //double userLat=0.0F;
-    String sort="userInfo";
-    ArrayList<String> data;
-    ArrayAdapter<String> arrayAdapter;
-
-    Button btn;
+//    String userInfo="";
+//    //double userLong=0.0F;
+//    //double userLat=0.0F;
+//    String sort="userInfo";
+//    //ArrayList<String> data;
+//
+    String name="";
+    double lat=0.0f;
+    double lng=0.0f;
+//    ArrayList<Item2> list = new ArrayList<>();
+//    ArrayAdapter<String> adapter;
+//
+//    Button btn;
     ////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////
     private GoogleMap mMap;
     ArrayList<LatLng>arrayList=new ArrayList<LatLng>();
-    LatLng suwon=new LatLng(36.3711705,127.36234309999999);
-    LatLng busan=new LatLng(36.3732444,127.36070219999999);
+    //LatLng suwon=new LatLng(36.3711705,127.36234309999999);
+    //LatLng busan=new LatLng(36.3732444,127.36070219999999);
     private Marker currentMarker = null;
 
     private static final String TAG = "googlemap_example";
@@ -182,20 +195,6 @@ public class Fragment3  extends Fragment
         addressTV = (TextView) v.findViewById(R.id.addressTV);
         latLongTV = (TextView) v.findViewById(R.id.latLongTV);
 
-        /*
-        addressButton = (Button) v.findViewById(R.id.addressButton);
-        addressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                EditText editText = (EditText) v.findViewById(R.id.addressET);
-                String address = editText.getText().toString();
-                GeocodingLocation locationAddress = new GeocodingLocation();
-                locationAddress.getAddressFromLocati on(address,
-                        getActivity().getApplicationContext(), new GeocoderHandler());
-            }
-        });
-         */
-
         EditText editText = (EditText) v.findViewById(R.id.addressET);
         editText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -224,25 +223,25 @@ public class Fragment3  extends Fragment
 
         ///////////////////////////사용자 정보////////////////////////////
 
-        btn=(Button)v.findViewById(R.id.button1);
+        //btn=(Button)v.findViewById(R.id.button1);
 
         Context context4 = v.getContext();
-        AccountManager am = AccountManager.get(context4); // "this" references the current Context
-        Account[] accounts = am.getAccountsByType("com.google");
-        //Log.d("UserInformation",accounts.toString());
-        userInfo=accounts.toString();
+//        AccountManager am = AccountManager.get(context4); // "this" references the current Context
+//        Account[] accounts = am.getAccountsByType("com.google");
+//        //Log.d("UserInformation",accounts.toString());
+//        userInfo=accounts.toString();
 
-        data=new ArrayList<String>();
-
+//        data=new ArrayList<String>();
+//
         mPostReference= FirebaseDatabase.getInstance().getReference();
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context3 = v.getContext();
-                Toast.makeText(context3,"button success", Toast.LENGTH_SHORT).show();
-                postFirebaseUserInfo(true);
-            }
-        });
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Context context3 = v.getContext();
+//                Toast.makeText(context3,"button success", Toast.LENGTH_SHORT).show();
+//                postFirebaseUserInfo(true);
+//            }
+//        });
 
         ////////////////////////////////////////////////////////////////
 
@@ -265,22 +264,133 @@ public class Fragment3  extends Fragment
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync((OnMapReadyCallback) this);
 
-        arrayList.add(suwon);
-        arrayList.add(busan);
+        //arrayList.add(suwon);
+        //arrayList.add(busan);
 
         //장소찾기 버튼
         previous_marker = new ArrayList<Marker>();
 
-        Button button = (Button)v.findViewById(R.id.button);
+        ///////////////////////////Firebase////////////////////////////////////
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
+        final Query query=ref.orderByChild("name");
+
+        Button button = (Button)v.findViewById(R.id.markerbutton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPlaceInformation(currentPosition);
+                //showPlaceInformation(currentPosition);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                            // TODO: handle the post
+                            String key=postSnapshot.getKey();
+                            FirebasePlace get=postSnapshot.getValue(FirebasePlace.class);
+                            String[] info={get.name,get.lat,get.lng};
+                            //Item result= new Item(info[0],info[1],); //수정 !!!
+
+                            Log.d("getFirebaseDatabase","key: "+key);
+                            Log.d("getFirebaseDatabase","info: "+info[0]+info[1]+info[2]);
+                            name=info[0];
+                            lat=Double.valueOf(info[1]);
+                            lng=Double.valueOf(info[2]);
+                            Log.d("name: ", name);
+                            Log.d("lat: ", String.valueOf(lat));
+                            Log.d("lng: ", String.valueOf(lng));
+                            moveCamera(new LatLng(lat, lng), DEFAULT_ZOOM, name);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+        //////////////////////////////////////////////////////////////////////
 
         return v;
     }
+
+    ///////////////////////////////200714/////////////////////////////////////////////////
+    private static final float DEFAULT_ZOOM = 15f;
+
+    private void geoLocate(){
+        Log.d(TAG, "geoLocate: geolocating");
+
+        String searchString = editText.getText().toString();
+
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> list = new ArrayList<>();
+        try{
+            list = geocoder.getFromLocationName(searchString, 1);
+        }catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
+        }
+
+        if(list.size() > 0){
+            Address address = list.get(0);
+
+            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
+                    address.getAddressLine(0));
+        }
+    }
+
+    private void moveCamera(LatLng latLng, float zoom, String title){
+        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+        if(!title.equals("My Location")){
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title);
+            mMap.addMarker(options);
+
+            //마커 클릭 리스너
+            //this.mMap.setOnMarkerClickListener(markerClickListener);
+
+        }
+
+        hideSoftKeyboard();
+    }
+    private void hideSoftKeyboard(){
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////GetData///////////////////////////////////////////
+//    public void getFirebaseDatabase(){
+//        final ValueEventListener postListener=new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Log.d("onDataChange","Data is Updated");
+//                list.clear();
+//                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+//                    String key=postSnapshot.getKey();
+//                    FirebasePlace get=postSnapshot.getValue(FirebasePlace.class);
+//                    String[] info={get.name,get.lat,get.lng};
+//                    Item2 result= new Item2(info[0],info[1],info[2]); //수정 !!!
+//
+//                    list.add(result);
+//                    Log.d("getFirebaseDatabase","key: "+key);
+//                    Log.d("getFirebaseDatabase","info: "+info[1]+" "+info[2]);
+//                    Log.d("ListSize",String.valueOf(list.size()));
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        };
+//
+//        mPostReference.child("place_list").addValueEventListener(postListener);
+//    }
+    ///////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////기타 함수들//////////////////////////////////////////////////
@@ -316,7 +426,6 @@ public class Fragment3  extends Fragment
             mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(arrayList.get(i)));
         }
-
 
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에
         //지도의 초기위치를 서울로 이동
@@ -375,6 +484,12 @@ public class Fragment3  extends Fragment
         markerOptions.position(SEOUL);
         markerOptions.title("서울");
         markerOptions.snippet("한국의 수도");
+
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.kmarker2);
+        Bitmap b=bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 200, 200, false);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
         mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
@@ -423,22 +538,22 @@ public class Fragment3  extends Fragment
 
     //////////////////////////////PostFirebaseUser//////////////////////////////////////////
 
-    public void postFirebaseUserInfo(boolean add){
-        Map<String,Object> childUpdates=new HashMap<>();
-        Map<String,Object> postValues=null;
-        if(add){
-            Log.d("UserInformation",userInfo);
-            FirebaseUserInfo post = new FirebaseUserInfo("userInfo");
-            postValues=post.toMap();
-        }
-        childUpdates.put("/user_list/"+"userInfo",postValues);
-        mPostReference.updateChildren(childUpdates);
-        //clearET();
-    }
+//    public void postFirebaseUserInfo(boolean add){
+//        Map<String,Object> childUpdates=new HashMap<>();
+//        Map<String,Object> postValues=null;
+//        if(add){
+//            Log.d("UserInformation",userInfo);
+//            FirebaseUserInfo post = new FirebaseUserInfo("userInfo");
+//            postValues=post.toMap();
+//        }
+//        childUpdates.put("/user_list/"+"userInfo",postValues);
+//        mPostReference.updateChildren(childUpdates);
+//        //clearET();
+//    }
 
-    public void clearET(){
-        userInfo="";
-    }
+//    public void clearET(){
+//        userInfo="";
+//    }
     ////////////////////////////////////////////////////////////////////////////////////////
 
     private void startLocationUpdates() {
