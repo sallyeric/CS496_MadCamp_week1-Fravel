@@ -156,7 +156,6 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
 
                 } else {
                     // username not found
-                    //Toast.makeText(Fragment1.this,"Order ERROR", Toast.LENGTH_SHORT).show();
                 }
             }
 

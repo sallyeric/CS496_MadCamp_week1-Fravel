@@ -2,16 +2,21 @@ package com.example.firstproject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 public class FullScreenActivity extends AppCompatActivity{
     @Override
@@ -43,12 +48,25 @@ public class FullScreenActivity extends AppCompatActivity{
         ImageView img = findViewById(R.id.fullScreenImageView);
         TextView img_title = findViewById(R.id.imgtitle);
         TextView img_review = findViewById(R.id.imgreview);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
 
         Log.d("FULL","img view success");
 
         Glide.with(this)
                 //.load(imageUrls.get(i).getImageUrl()) // 웹 이미지 로드
                 .load(imageUrl) // imageUrl
+                .listener( new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
                 .thumbnail(0.1f)
                 .error(R.drawable.imagenotfound)
                 .into(img);

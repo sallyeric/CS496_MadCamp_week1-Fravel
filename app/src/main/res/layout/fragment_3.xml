@@ -75,7 +75,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_gravity="left"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/custom_rounded_button"
                 android:id="@+id/button"/>
 
             <TextView
@@ -95,7 +95,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_gravity="right"
-                android:background="@drawable/rounded_button" />
+                android:background="@drawable/custom_rounded_button" />
         </LinearLayout>
         <Button
             android:text="맛집추천"
@@ -103,7 +103,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/custom_rounded_button"
             android:id="@+id/markerbutton"/>
 
 s

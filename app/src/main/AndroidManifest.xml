@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.actions"
-            android:resource="@drawable/rounded_button" />
+            android:resource="@drawable/custom_rounded_button" />
 
         <activity android:name=".MoreInfo" />
 

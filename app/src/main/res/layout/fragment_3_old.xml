@@ -43,7 +43,7 @@
                 android:id="@+id/addressButton"
                 android:layout_below="@+id/addressTV"
                 android:layout_toEndOf="@+id/addressTV"
-                android:background="@drawable/rounded_button" />
+                android:background="@drawable/custom_rounded_button" />
         </LinearLayout>
 
 
@@ -70,7 +70,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/custom_rounded_button"
             android:id="@+id/button"/>
 
         <Button
@@ -79,7 +79,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_height="50dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/custom_rounded_button"
             android:text="Add"/>
 
     </LinearLayout>

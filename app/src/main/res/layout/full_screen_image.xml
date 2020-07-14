@@ -16,6 +16,15 @@
         android:elevation="10dp"
         android:layout_marginRight="20dp"/>
 
+    <ProgressBar
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:id="@+id/progress"
+        android:theme="@style/colored_progressbar"
+        android:visibility="visible"
+        />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
