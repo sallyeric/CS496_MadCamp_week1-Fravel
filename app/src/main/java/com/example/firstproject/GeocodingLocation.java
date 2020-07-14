@@ -8,6 +8,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +37,9 @@ public class GeocodingLocation {
                         lat0 = address.getLatitude();
                         lon0 = address.getLongitude();
                         result = sb.toString();
+
+                        //move camera
+                        //moveCamera(new LatLng(address.getLatitude(),address.getLongitude(),DEFAULT_ZOOM,"My Location"));
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "Unable to connect to Geocoder", e);
@@ -61,4 +68,11 @@ public class GeocodingLocation {
         };
         thread.start();
     }
+
+//    private void moveCamera(LatLng latLng, float zoom, String title){
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
+//
+//        MarkerOptions options = new MarkerOptions().position(latLng).title(title);
+//        mMap.addMarker(options);
+//    }
 }

@@ -66,13 +66,13 @@
         android:id="@+id/relLayout2">
 
         <Button
-            android:text="장소검색"
+            android:text="맛집추천"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/rounded_button"
-            android:id="@+id/button"/>
+            android:id="@+id/markerbutton"/>
 
         <TextView
             android:layout_width="wrap_content"

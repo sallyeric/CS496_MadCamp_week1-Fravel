@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -78,24 +80,26 @@ public class Fragment3  extends Fragment
     Button addressButton;
     TextView addressTV;
     TextView latLongTV;
+    EditText editText;
+
     /////////////////////////////////////////////////////////////////
 
 
     ////////////////////////////////////////////////////////////////
     private DatabaseReference mPostReference;
-    String userInfo="";
-    //double userLong=0.0F;
-    //double userLat=0.0F;
-    String sort="userInfo";
-    //ArrayList<String> data;
-
+//    String userInfo="";
+//    //double userLong=0.0F;
+//    //double userLat=0.0F;
+//    String sort="userInfo";
+//    //ArrayList<String> data;
+//
     String name="";
-    String lat="";
-    String lng="";
-    ArrayList<Item2> list = new ArrayList<>();
-    ArrayAdapter<String> adapter;
-
-    Button btn;
+    double lat=0.0f;
+    double lng=0.0f;
+//    ArrayList<Item2> list = new ArrayList<>();
+//    ArrayAdapter<String> adapter;
+//
+//    Button btn;
     ////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////
@@ -190,12 +194,10 @@ public class Fragment3  extends Fragment
             @Override
             public void onClick(View arg0) {
 
-                EditText editText = (EditText) v.findViewById(R.id.addressET);
+                editText = (EditText) v.findViewById(R.id.addressET);
                 String address = editText.getText().toString();
 
-                GeocodingLocation locationAddress = new GeocodingLocation();
-                locationAddress.getAddressFromLocation(address,
-                        getActivity().getApplicationContext(), new GeocoderHandler());
+                geoLocate();
             }
         });
         /////////////////////////////////////////////////////////////////
@@ -263,9 +265,20 @@ public class Fragment3  extends Fragment
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             // TODO: handle the post
-                            Log.d("PLACE NAME: ",query.toString());
-                            //Log.d("PLACE LAT: ",);
-                            //Log.d("PLACE LNG: ",);
+                            String key=postSnapshot.getKey();
+                            FirebasePlace get=postSnapshot.getValue(FirebasePlace.class);
+                            String[] info={get.name,get.lat,get.lng};
+                            //Item result= new Item(info[0],info[1],); //수정 !!!
+
+                            Log.d("getFirebaseDatabase","key: "+key);
+                            Log.d("getFirebaseDatabase","info: "+info[0]+info[1]+info[2]);
+                            name=info[0];
+                            lat=Double.valueOf(info[1]);
+                            lng=Double.valueOf(info[2]);
+                            Log.d("name: ", name);
+                            Log.d("lat: ", String.valueOf(lat));
+                            Log.d("lng: ", String.valueOf(lng));
+                            moveCamera(new LatLng(lat, lng), DEFAULT_ZOOM, name);
                         }
                     }
                     @Override
@@ -279,6 +292,55 @@ public class Fragment3  extends Fragment
 
         return v;
     }
+
+    ///////////////////////////////200714/////////////////////////////////////////////////
+    private static final float DEFAULT_ZOOM = 15f;
+
+    private void geoLocate(){
+        Log.d(TAG, "geoLocate: geolocating");
+
+        String searchString = editText.getText().toString();
+
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> list = new ArrayList<>();
+        try{
+            list = geocoder.getFromLocationName(searchString, 1);
+        }catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
+        }
+
+        if(list.size() > 0){
+            Address address = list.get(0);
+
+            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
+                    address.getAddressLine(0));
+        }
+    }
+
+    private void moveCamera(LatLng latLng, float zoom, String title){
+        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+        if(!title.equals("My Location")){
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title);
+            mMap.addMarker(options);
+
+            //마커 클릭 리스너
+            //this.mMap.setOnMarkerClickListener(markerClickListener);
+
+        }
+
+        hideSoftKeyboard();
+    }
+    private void hideSoftKeyboard(){
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////GetData///////////////////////////////////////////
 //    public void getFirebaseDatabase(){
@@ -346,7 +408,6 @@ public class Fragment3  extends Fragment
             mMap.moveCamera(CameraUpdateFactory.newLatLng(arrayList.get(i)));
         }
 
-
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에
         //지도의 초기위치를 서울로 이동
         setDefaultLocation();
@@ -404,6 +465,12 @@ public class Fragment3  extends Fragment
         markerOptions.position(SEOUL);
         markerOptions.title("서울");
         markerOptions.snippet("한국의 수도");
+
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.kmarker2);
+        Bitmap b=bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 200, 200, false);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
         mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));

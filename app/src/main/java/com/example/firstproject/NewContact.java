@@ -81,6 +81,10 @@ public class NewContact extends AppCompatActivity {
                 GeocodingLocation locationAddress = new GeocodingLocation();
                 locationAddress.getAddressFromLocation(address, getApplicationContext(), new GeocoderHandler());
 
+                if(locationAddress!=null){
+                    Toast.makeText(NewContact.this,"Restaurant location is searched", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         //////////////////////////////////////////////////////////////////
