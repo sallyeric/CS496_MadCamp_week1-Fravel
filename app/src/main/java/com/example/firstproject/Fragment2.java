@@ -1,5 +1,6 @@
 package com.example.firstproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,8 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
     GridLayoutManager gridLayoutManager;
     private GalleryManager mGalleryManager;
     public ArrayList<imgFormat> localPhotoList;
+
+    String signupUsername="";
 
     private DatabaseReference mDatabaseRef;
     ImageAdapter dataAdapter;
@@ -109,6 +112,12 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
         //screenWidth = metrics.widthPixels;
         //Log.d("dispsize", String.valueOf(screenWidth));
         View v = inflater.inflate(R.layout.fragment_2, container, false);
+
+        //Intent
+        Intent postPageIntent = getActivity().getIntent();
+        String username = postPageIntent.getStringExtra("Username");
+        Log.d("FRAGMENT2 USERNAME", username);
+        signupUsername=username;
 
         imageView = (ImageView) v.findViewById(R.id.imageView);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView2);

@@ -51,6 +51,7 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     String number="";
     String address="";
     ListView listView;
+    String signupUsername="";
 
     //ArrayList<Item> list; // 아래에 수정
     private ArrayList<Item> list = new ArrayList<>();
@@ -115,6 +116,12 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View v = inflater.inflate(R.layout.fragment_1, container, false);
+
+        //Intent
+        Intent postPageIntent = getActivity().getIntent();
+        String username = postPageIntent.getStringExtra("Username");
+        Log.d("FRAGMENT1 USERNAME", username);
+        signupUsername=username;
 
         recyclerView = (RecyclerView) v.findViewById(R.id.dataList);                                // RV
         mPostReference = FirebaseDatabase.getInstance().getReference();

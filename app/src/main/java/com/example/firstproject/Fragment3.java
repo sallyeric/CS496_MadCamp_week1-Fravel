@@ -27,6 +27,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -82,7 +85,7 @@ public class Fragment3  extends Fragment
         ActivityCompat.OnRequestPermissionsResultCallback{
 
     ////////////////////////////geocoding////////////////////////////
-    Button addressButton;
+    ImageButton addressButton;
     TextView addressTV;
     TextView latLongTV;
     EditText editText;
@@ -99,8 +102,11 @@ public class Fragment3  extends Fragment
 //    //ArrayList<String> data;
 //
     String name="";
+    String score="";
     double lat=0.0f;
     double lng=0.0f;
+
+    String signupUsername="";
 //    ArrayList<Item2> list = new ArrayList<>();
 //    ArrayAdapter<String> adapter;
 //
@@ -186,6 +192,11 @@ public class Fragment3  extends Fragment
         // Inflate the layout for this fragment
 
         final View v = inflater.inflate(R.layout.fragment_3, null, false); // 원래 null 아니고 container
+
+        Intent postPageIntent = getActivity().getIntent();
+        String username = postPageIntent.getStringExtra("Username");
+        Log.d("FRAGMENT3 USERNAME", username);
+        signupUsername=username;
 
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -308,8 +319,53 @@ public class Fragment3  extends Fragment
         });
         //////////////////////////////////////////////////////////////////////
 
+        //////////////////////////Set Score////////////////////////////////////////
+        DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("rank_list");
+        final Query query2=ref.orderByChild("name");
+
+        addressButton = (ImageButton)v.findViewById(R.id.addressButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                            // TODO: handle the post
+                            String key=postSnapshot.getKey();
+                            FirebaseScore get=postSnapshot.getValue(FirebaseScore.class);
+                            String[] info={get.name,get.score};
+                            //Item result= new Item(info[0],info[1],); //수정 !!!
+                            int currentScore=Integer.parseInt(info[1]);
+                            currentScore++;
+                            score=Integer.toString(currentScore);
+                            postFirebaseDatabase2(true);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        ///////////////////////////////////////////////////////////////////////////
+
         return v;
     }
+
+    public void postFirebaseDatabase2(boolean add){
+        Map<String,Object> childUpdates=new HashMap<>();
+        Map<String,Object> postValues=null;
+        if(add){
+            FirebaseScore post=new FirebaseScore(name,score);
+            postValues=post.toMap();
+        }
+        childUpdates.put("/score_list/"+name,postValues);
+        mPostReference.updateChildren(childUpdates);
+        //clearET();
+    }
+
 
     ///////////////////////////////200714/////////////////////////////////////////////////
     private static final float DEFAULT_ZOOM = 15f;

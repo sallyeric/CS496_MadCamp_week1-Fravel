@@ -21,19 +21,18 @@
         android:background="@drawable/white_border"
         android:id="@+id/relLayout1">
 
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:id="@+id/ic_search"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_search" />
+<!--        <ImageView-->
+<!--            android:layout_width="15dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:id="@+id/ic_search"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:src="@drawable/ic_search" />-->
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/ic_search"
             android:layout_centerVertical="true"
             android:textSize="15sp"
             android:textColor="#000"
@@ -41,16 +40,19 @@
             android:background="@null"
             android:hint="Enter Address, City or Zip Code"
             android:imeOptions="actionSearch"/>
-        <!--
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/addressButton"
             android:layout_below="@+id/addressTV"
             android:layout_toEndOf="@+id/addressTV"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            />-->
+            android:background="@drawable/circle_button"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_baseline_search_24"
+            android:layout_marginTop="5dp"/>
 
     </RelativeLayout>
 
