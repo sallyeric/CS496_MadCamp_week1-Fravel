@@ -16,10 +16,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,9 +49,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -176,6 +182,7 @@ public class Fragment3  extends Fragment
         addressTV = (TextView) v.findViewById(R.id.addressTV);
         latLongTV = (TextView) v.findViewById(R.id.latLongTV);
 
+        /*
         addressButton = (Button) v.findViewById(R.id.addressButton);
         addressButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,8 +192,34 @@ public class Fragment3  extends Fragment
                 String address = editText.getText().toString();
 
                 GeocodingLocation locationAddress = new GeocodingLocation();
-                locationAddress.getAddressFromLocation(address,
+                locationAddress.getAddressFromLocati on(address,
                         getActivity().getApplicationContext(), new GeocoderHandler());
+            }
+        });
+         */
+
+        EditText editText = (EditText) v.findViewById(R.id.addressET);
+        editText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        // 검색 동작
+
+                        break;
+                    default:
+                        // 기본 엔터키 동작
+                        EditText editText = (EditText) v.findViewById(R.id.addressET);
+                        String address = editText.getText().toString();
+
+                        GeocodingLocation locationAddress = new GeocodingLocation();
+                        locationAddress.getAddressFromLocation(address,
+                                getActivity().getApplicationContext(), new GeocoderHandler());
+
+                        return true;
+                }
+                return true;
             }
         });
         /////////////////////////////////////////////////////////////////
@@ -378,7 +411,6 @@ public class Fragment3  extends Fragment
                         + " 경도:" + String.valueOf(location.getLongitude());
 
                 Log.d(TAG, "onLocationResult : " + markerSnippet);
-
 
                 //현재 위치에 마커 생성하고 이동
                 setCurrentLocation(location, markerTitle, markerSnippet);
@@ -764,4 +796,79 @@ public class Fragment3  extends Fragment
                 .build()
                 .execute();
     }
+
+    private void geoLocate(){
+        Log.d(TAG, "geoLocate: geolocating");
+
+        String searchString = mSearchText.getText().toString();
+
+        EditText editText = (EditText) v.findViewById(R.id.addressET);
+        String address = editText.getText().toString();
+
+        Geocoder geocoder = new Geocoder(MapActivity.this);
+        List<Address> list = new ArrayList<>();
+        try{
+            list = geocoder.getFromLocationName(searchString, 1);
+        }catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
+        }
+
+        if(list.size() > 0){
+            Address address = list.get(0);
+
+            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
+                    address.getAddressLine(0));
+        }
+    }
+
+    private void getDeviceLocation(){
+        Log.d(TAG, "getDeviceLocation: getting the devices current location");
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderC  lient(this);
+
+        try{
+            if(mLocationPermissionsGranted){
+
+                final Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "onComplete: found location!");
+                            Location currentLocation = (Location) task.getResult();
+
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                    DEFAULT_ZOOM,
+                                    "My Location");
+
+                        }else{
+                            Log.d(TAG, "onComplete: current location is null");
+                            Toast.makeText(MapActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }catch (SecurityException e){
+            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
+        }
+    }
+
+    private void moveCamera(LatLng latLng, float zoom, String title){
+        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+        if(!title.equals("My Location")){
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title);
+            mMap.addMarker(options);
+        }
+
+        hideSoftKeyboard();
+    }
+
+
 }

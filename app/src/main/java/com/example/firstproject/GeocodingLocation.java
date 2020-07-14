@@ -29,10 +29,11 @@ public class GeocodingLocation {
                     if (addressList != null && addressList.size() > 0) {
                         Address address = (Address) addressList.get(0);
                         StringBuilder sb = new StringBuilder();
-                        sb.append(address.getLatitude()).append(", ").append(address.getLongitude());
+                        sb.append(address.getLatitude()).append("\n").append(address.getLongitude());
                         lat0 = address.getLatitude();
                         lon0 = address.getLongitude();
                         result = sb.toString();
+
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "Unable to connect to Geocoder", e);
