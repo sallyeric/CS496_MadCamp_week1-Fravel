@@ -87,7 +87,7 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:ems="10"
-            android:hint="Enter"
+            android:hint="Enter restaurant phone number"
             android:inputType="number"
             android:enabled="false"/>
 
@@ -103,18 +103,19 @@
         <EditText
             android:id="@+id/addReview"
             android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_height="100dp"
             android:ems="10"
-            android:hint="Enter"
+            android:hint="Write your comment"
             android:inputType="text"
+            android:singleLine="false"
             android:enabled="false"/>
 
         <ImageButton
             android:src="@drawable/ic_launcher_foreground"
             android:id="@+id/imagebtn"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_width="240dp"
-            android:layout_height="150dp"/>
+            android:layout_height="130dp"/>
 
         <TextView
             android:id="@+id/signupButton"

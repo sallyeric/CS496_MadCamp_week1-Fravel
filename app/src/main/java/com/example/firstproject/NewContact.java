@@ -232,13 +232,13 @@ public class NewContact extends AppCompatActivity {
                         reviewET.setEnabled(true);
                         yes.setVisibility(View.VISIBLE);
                         no.setVisibility(View.INVISIBLE);
-                        Toast.makeText(NewContact.this,"Restaurant location is searched", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(NewContact.this,"Restaurant location is searched", Toast.LENGTH_SHORT).show();
                     }else{
                         templat="0";
                         templon="0";
                         no.setVisibility(View.VISIBLE);
                         yes.setVisibility(View.INVISIBLE);
-                        Toast.makeText(NewContact.this,"Restaurant location does not exist", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(NewContact.this,"Restaurant location does not exist", Toast.LENGTH_SHORT).show();
                         numberET.setEnabled(false);
                         reviewET.setEnabled(false);
                     }
