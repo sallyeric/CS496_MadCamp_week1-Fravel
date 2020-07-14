@@ -1,8 +1,5 @@
 # CS496_MadCamp_Pr1
-## 탭구조를 이용한 안드로이드앱 개발
-2020s 몰입캠프 과제1
-
-
+## Tab Application : Fravel (Food & Travel platform)
 
 장영재 진승현
 
