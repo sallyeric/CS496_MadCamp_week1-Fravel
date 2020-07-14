@@ -17,11 +17,11 @@
 
 
         <ImageView
-            android:layout_width="150dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/ic_logo_text"
-            android:tint="#6200EE"
+            android:tint="@color/color5"
             android:id="@+id/Title"
             />
 
@@ -73,16 +73,17 @@
             android:textColor="#FFF"
             />
 
-        <Button
+        <TextView
             android:id="@+id/loginButton"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:text="Login"
             android:textSize="20dp"
-            android:textColor="#2196F3"
+            android:gravity="center"
+            android:textColor="@color/color1"
             android:fontFamily="@font/gillsansb"
-            android:background="@drawable/rounded_button_white"
+            android:background="@drawable/circle_button3"
             />
 
         <LinearLayout
