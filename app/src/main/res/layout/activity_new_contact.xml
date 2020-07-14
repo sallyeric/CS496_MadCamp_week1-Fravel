@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".NewContact">
 
     <LinearLayout
@@ -11,9 +11,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="30dp"
+            android:textColor="@color/color2"
+            android:textStyle="bold"
+            android:text="RECOMMNED" />
 
         <TextView
-            android:layout_width="300dp"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:textSize="15dp"
@@ -22,12 +30,12 @@
             android:text="Restaurant Name" />
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <EditText
-            android:layout_width="210dp"
+            android:layout_width="280dp"
             android:layout_height="50dp"
             android:id="@+id/addName"
             android:layout_alignParentTop="true"
@@ -38,14 +46,14 @@
             android:id="@+id/search"
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:background="@drawable/custom_rounded_button"
+            android:background="@drawable/circle_button2"
             android:textSize="10dp"
             android:text="search"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
 
         <TextView
-            android:layout_width="300dp"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textSize="15dp"
@@ -55,7 +63,7 @@
 
         <EditText
             android:id="@+id/addNumber"
-            android:layout_width="300dp"
+            android:layout_width="380dp"
             android:layout_height="50dp"
             android:ems="10"
             android:hint="Enter"
@@ -63,7 +71,7 @@
             android:enabled="false"/>
 
         <TextView
-            android:layout_width="300dp"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textSize="15dp"
@@ -73,7 +81,7 @@
 
         <EditText
             android:id="@+id/addReview"
-            android:layout_width="300dp"
+            android:layout_width="380dp"
             android:layout_height="50dp"
             android:ems="10"
             android:hint="Enter"
@@ -87,15 +95,17 @@
             android:layout_width="200dp"
             android:layout_height="200dp"/>
 
-        <Button
+        <TextView
             android:id="@+id/signupButton"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/custom_rounded_button"
-            android:text="Add"/>
-
-
+            android:background="@drawable/circle_button2"
+            android:text="Add"
+            android:textColor="@color/color5"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:gravity="center"/>
 
     </LinearLayout>
 

@@ -154,7 +154,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                list.clear();
+                //list.clear();
                 imageUrlList.clear();
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     String key=postSnapshot.getKey();
@@ -162,7 +162,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
                     String[] info={get.name,get.number,get.img, get.review};
                     Item result= new Item(info[0],info[1]);
 
-                    list.add(result);
+                    //list.add(result);
                     if(info[2]!=null){
                         ImageUrl imageUrl = new ImageUrl();
                         imageUrl.setImageUrl(info[2]);
