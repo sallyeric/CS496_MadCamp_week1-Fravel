@@ -20,14 +20,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fullScreenImageView"/>
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textColor="@android:color/white"
-        android:textSize="30dp"
-        android:text="Test"
-        android:layout_gravity="bottom|center_vertical"
-        android:id="@+id/imgtitle">
-    </TextView>
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/white"
+            android:textSize="30dp"
+            android:text="Test"
+            android:id="@+id/imgtitle">
+        </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:text="review text"
+            android:id="@+id/imgreview">
+        </TextView>
+    </LinearLayout>
+
 </FrameLayout>

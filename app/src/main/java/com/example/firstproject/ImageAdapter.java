@@ -85,6 +85,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                     Intent fullScreenIntent=new Intent(context, FullScreenActivity.class);
                     fullScreenIntent.putExtra("image_url", imageUrls.get(position).getImageUrl());
                     fullScreenIntent.putExtra("image_title", imageUrls.get(position).getImageTitle());
+                    fullScreenIntent.putExtra("image_review", imageUrls.get(position).getImageReview());
                     Log.d("FULL","image tile1="+imageUrls.get(position).getImageTitle());
                     context.startActivity(fullScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }

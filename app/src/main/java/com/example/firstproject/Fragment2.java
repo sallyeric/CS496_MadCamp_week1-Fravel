@@ -149,7 +149,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     String key=postSnapshot.getKey();
                     FirebasePost get=postSnapshot.getValue(FirebasePost.class);
-                    String[] info={get.name,get.number,get.img};
+                    String[] info={get.name,get.number,get.img, get.review};
                     Item result= new Item(info[0],info[1]);
 
                     list.add(result);
@@ -157,6 +157,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
                         ImageUrl imageUrl = new ImageUrl();
                         imageUrl.setImageUrl(info[2]);
                         imageUrl.setImageTitle(info[0]);
+                        imageUrl.setImageReview(info[3]);
                         imageUrlList.add(imageUrl);
                         Log.d("imgSaved", String.valueOf(imageUrlList.size()));
                     }

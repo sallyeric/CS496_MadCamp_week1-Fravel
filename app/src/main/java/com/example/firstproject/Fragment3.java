@@ -92,7 +92,7 @@ public class Fragment3  extends Fragment
 
     ////////////////////////////////////////////////////////////////
     private DatabaseReference mPostReference;
-//    String userInfo="";
+    //    String userInfo="";
 //    //double userLong=0.0F;
 //    //double userLat=0.0F;
 //    String sort="userInfo";
