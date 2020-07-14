@@ -797,6 +797,7 @@ public class Fragment3  extends Fragment
                 .execute();
     }
 
+    /*
     private void geoLocate(){
         Log.d(TAG, "geoLocate: geolocating");
 
@@ -827,7 +828,7 @@ public class Fragment3  extends Fragment
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderC  lient(this);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         try{
             if(mLocationPermissionsGranted){
@@ -869,6 +870,6 @@ public class Fragment3  extends Fragment
 
         hideSoftKeyboard();
     }
-
+*/
 
 }
