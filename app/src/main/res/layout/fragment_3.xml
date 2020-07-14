@@ -40,6 +40,7 @@
             android:id="@+id/addressET"
             android:background="@null"
             android:hint="Enter Address, City or Zip Code"
+            android:inputType="text"
             android:imeOptions="actionSearch"/>
         <!--
         <Button

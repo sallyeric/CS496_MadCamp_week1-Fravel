@@ -12,12 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,7 +58,9 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     //ArrayList<Item> list; // 아래에 수정
     private ArrayList<Item> list = new ArrayList<>();
     public ArrayList<ImageUrl> imageUrlList = new ArrayList<ImageUrl>();
+    SimpleTextAdapter dataAdapter;
     SimpleTextAdapter adapter;
+    private DatabaseReference mDatabaseRef;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -114,13 +119,15 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_1, container, false);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.dataList);                                // RV
+        View v = inflater.inflate(R.layout.fragment_1, container, false);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView1);
         mPostReference = FirebaseDatabase.getInstance().getReference();
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("name_list");
         final Query query = ref.orderByChild("name");
+        /*
+        final ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.progress);
+
 
         Context context1 = v.getContext();                                                            // Context 수정
         list = Item.createContactsList(0);
@@ -137,34 +144,34 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         Log.d("Tab1","recyclerView complete");
-
-        //listView.setAdapter(adapter);                                                             // RV
+        progressBar.setVisibility(View.GONE);
+        */
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getChildrenCount() > 0) {
-                    //username found
-                    //Context context1 = v.getContext();                                                            // Context 수정
-                    //list = Item.createContactsList(5);
-                    //adapter.addMoreContacts(Item.createContactsList(20));                          //RV2
-                    //recyclerView.setHasFixedSize(true);
-                    //adapter = new SimpleTextAdapter(context1, list, this , this);
-                    //recyclerView.setLayoutManager(new LinearLayoutManager(context1));                           // RV
-                    //recyclerView.setAdapter(adapter);
                     getFirebaseDatabase();
-
                 } else {
-                    // username not found
+                    //user not found
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //Toast.makeText(MainActivity.this,"Error", Toast.LENGTH_SHORT).show();
             }
         });
 
+        recyclerView.setHasFixedSize(true);
+        adapter = new SimpleTextAdapter(getActivity().getApplicationContext(), list, this, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext()));
+        recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(getActivity().getApplicationContext(),
+                        new LinearLayoutManager(getActivity().getApplicationContext()).getOrientation());
+        dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider));
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         ImageButton newContact = (ImageButton) v.findViewById(R.id.newContact);
         newContact.setOnClickListener(new View.OnClickListener() {
@@ -176,9 +183,6 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
                 startActivity(newPostIntent);
             }
         });
-
-        //Log.d("shit",String.valueOf(imageUrlList.size()));
-
         return v;
     }
 

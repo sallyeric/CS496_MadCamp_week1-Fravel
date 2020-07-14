@@ -24,11 +24,17 @@
         android:theme="@style/colored_progressbar"
         android:visibility="visible"
         />
-
+<!--
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fullScreenImageView"/>
+        -->
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/fullScreenImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +46,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:textColor="@android:color/white"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:text="Test"
             android:id="@+id/imgtitle">
         </TextView>
@@ -50,9 +56,9 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="40dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:textColor="@android:color/white"
-            android:textSize="20dp"
+            android:textSize="13dp"
             android:text="review text"
             android:id="@+id/imgreview">
         </TextView>

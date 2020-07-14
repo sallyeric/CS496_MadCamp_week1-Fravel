@@ -196,28 +196,8 @@ public class Fragment3  extends Fragment
 
         EditText editText = (EditText) v.findViewById(R.id.addressET);
         editText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                switch (actionId) {
-                    case EditorInfo.IME_ACTION_SEARCH:
-                        // 검색 동작
 
-                        break;
-                    default:
-                        // 기본 엔터키 동작
-                        EditText editText = (EditText) v.findViewById(R.id.addressET);
-                        String address = editText.getText().toString();
-
-                        GeocodingLocation locationAddress = new GeocodingLocation();
-                        locationAddress.getAddressFromLocation(address,
-                                getActivity().getApplicationContext(), new GeocoderHandler());
-
-                        return true;
-                }
-                return true;
-            }
-        });
+        editText.setOnEditorActionListener(editorListener);
         /////////////////////////////////////////////////////////////////
 
         ///////////////////////////사용자 정보////////////////////////////
@@ -338,6 +318,51 @@ public class Fragment3  extends Fragment
         }
     }
 
+    private TextView.OnEditorActionListener editorListener = new TextView.OnEditorActionListener() { // 키보드 타입 keyboard 엔터 enter
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            Log.d("keyboard","in the functions");
+            switch (actionId) {
+                case EditorInfo.IME_ACTION_NEXT:
+                    Log.d("keyboard","action_next");
+                    //Toast.makeText(this, "Next", Toast.LENGTH_SHORT).show();
+                    break;
+                case EditorInfo.IME_ACTION_SEND:
+                    Log.d("keyboard","action_send");
+                    break;
+                case EditorInfo.IME_ACTION_SEARCH: // SEARCH 버튼 클릭 =================================== 검색 버튼 클릭 시 이벤트
+                    Log.d("keyboard","action_search");
+                    EditText editText = (EditText) v.findViewById(R.id.addressET);
+                    String address = editText.getText().toString();
+
+                    GeocodingLocation locationAddress = new GeocodingLocation();
+                    locationAddress.getAddressFromLocation(address,
+                            getActivity().getApplicationContext(), new GeocoderHandler());
+
+
+                    LatLng SEARCHED_PLACE = new LatLng(lat, lng);
+
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(SEARCHED_PLACE);
+                    markerOptions.title(address);
+
+                    BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.marker);
+                    Bitmap b=bitmapdraw.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
+                    mMap.addMarker(markerOptions);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(SEARCHED_PLACE));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+
+
+                    break;
+            }
+            return false;
+        }
+    };
+
     private void moveCamera(LatLng latLng, float zoom, String title){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -360,55 +385,40 @@ public class Fragment3  extends Fragment
     }
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////GetData///////////////////////////////////////////
-//    public void getFirebaseDatabase(){
-//        final ValueEventListener postListener=new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                Log.d("onDataChange","Data is Updated");
-//                list.clear();
-//                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-//                    String key=postSnapshot.getKey();
-//                    FirebasePlace get=postSnapshot.getValue(FirebasePlace.class);
-//                    String[] info={get.name,get.lat,get.lng};
-//                    Item2 result= new Item2(info[0],info[1],info[2]); //수정 !!!
-//
-//                    list.add(result);
-//                    Log.d("getFirebaseDatabase","key: "+key);
-//                    Log.d("getFirebaseDatabase","info: "+info[1]+" "+info[2]);
-//                    Log.d("ListSize",String.valueOf(list.size()));
-//                }
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        };
-//
-//        mPostReference.child("place_list").addValueEventListener(postListener);
-//    }
-    ///////////////////////////////////////////////////////////////////////////////////////
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////기타 함수들//////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////
-
     /////////////////////////////Geocoding////////////////////////////////////////////
     private class GeocoderHandler extends Handler {
         @Override
         public void handleMessage(Message message) {
             String locationAddress;
+            String lat="", lng="";
             switch (message.what) {
                 case 1:
                     Bundle bundle = message.getData();
                     locationAddress = bundle.getString("address");
+                    lat = bundle.getString("lat");
+                    lng = bundle.getString("lon");
                     break;
                 default:
                     locationAddress = null;
             }
             latLongTV.setText(locationAddress);
+
+            Log.d("location", "latlng"+ lat+" / "+lng);
+
+            LatLng SEARCHED_PLACE = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+            /*
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(SEARCHED_PLACE);
+
+            BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.marker);
+            Bitmap b=bitmapdraw.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));*/
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(SEARCHED_PLACE));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(SEARCHED_PLACE);
+            markerOptions.title(locationAddress);
         }
     }
     //////////////////////////////////////////////////////////////////////////////////
@@ -475,22 +485,21 @@ public class Fragment3  extends Fragment
 
         }
 
-
-        // ????????????
+        // 초기
         LatLng SEOUL = new LatLng(37.56, 126.97);
+        LatLng KAIST = new LatLng(36.372238, 127.360422);
 
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
+        markerOptions.position(KAIST);
+        markerOptions.title("KAIST");
+        markerOptions.snippet("korea institude of science and technology");
 
-        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.kmarker2);
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.marker);
         Bitmap b=bitmapdraw.getBitmap();
-        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 200, 200, false);
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
         mMap.addMarker(markerOptions);
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
@@ -535,87 +544,43 @@ public class Fragment3  extends Fragment
 
     };
 
-    //////////////////////////////PostFirebaseUser//////////////////////////////////////////
-
-//    public void postFirebaseUserInfo(boolean add){
-//        Map<String,Object> childUpdates=new HashMap<>();
-//        Map<String,Object> postValues=null;
-//        if(add){
-//            Log.d("UserInformation",userInfo);
-//            FirebaseUserInfo post = new FirebaseUserInfo("userInfo");
-//            postValues=post.toMap();
-//        }
-//        childUpdates.put("/user_list/"+"userInfo",postValues);
-//        mPostReference.updateChildren(childUpdates);
-//        //clearET();
-//    }
-
-//    public void clearET(){
-//        userInfo="";
-//    }
-    ////////////////////////////////////////////////////////////////////////////////////////
-
     private void startLocationUpdates() {
-
         if (!checkLocationServicesStatus()) {
-
             Log.d(TAG, "startLocationUpdates : call showDialogForLocationServiceSetting");
             showDialogForLocationServiceSetting();
         }else {
-
             int hasFineLocationPermission = ContextCompat.checkSelfPermission(this.getContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION);
             int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this.getContext(),
                     Manifest.permission.ACCESS_COARSE_LOCATION);
-
-
-
             if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED ||
                     hasCoarseLocationPermission != PackageManager.PERMISSION_GRANTED   ) {
-
                 Log.d(TAG, "startLocationUpdates : 퍼미션 안가지고 있음");
                 return;
             }
-
-
             Log.d(TAG, "startLocationUpdates : call mFusedLocationClient.requestLocationUpdates");
-
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-
             if (checkPermission())
                 mMap.setMyLocationEnabled(true);
-
         }
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         Log.d(TAG, "onStart");
-
         if (checkPermission()) {
-
             Log.d(TAG, "onStart : call mFusedLocationClient.requestLocationUpdates");
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-
             if (mMap!=null)
                 mMap.setMyLocationEnabled(true);
-
         }
-
-
     }
-
 
     @Override
     public void onStop() {
-
         super.onStop();
-
         if (mFusedLocationClient != null) {
-
             Log.d(TAG, "onStop : call stopLocationUpdates");
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }

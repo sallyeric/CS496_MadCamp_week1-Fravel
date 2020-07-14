@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.github.chrisbanes.photoview.PhotoView;
 
 public class FullScreenActivity extends AppCompatActivity{
     @Override
@@ -45,7 +46,8 @@ public class FullScreenActivity extends AppCompatActivity{
     }
     private void setImage(String imageUrl, String title, String review){
         Log.d("FULL","full screen image to " + imageUrl);
-        ImageView img = findViewById(R.id.fullScreenImageView);
+        //ImageView img = findViewById(R.id.fullScreenImageView);
+        PhotoView img = findViewById(R.id.fullScreenImageView);
         TextView img_title = findViewById(R.id.imgtitle);
         TextView img_review = findViewById(R.id.imgreview);
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
