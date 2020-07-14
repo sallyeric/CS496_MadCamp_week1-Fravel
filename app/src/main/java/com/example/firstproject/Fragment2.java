@@ -119,7 +119,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
         //Intent
         Intent postPageIntent = getActivity().getIntent();
         String username = postPageIntent.getStringExtra("Username");
-        Log.d("FRAGMENT2 USERNAME", username);
+        //Log.d("FRAGMENT2 USERNAME", username);
         signupUsername=username;
 
         imageView = (ImageView) v.findViewById(R.id.imageView);

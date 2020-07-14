@@ -185,7 +185,7 @@ public class Fragment3  extends Fragment
 
         Intent postPageIntent = getActivity().getIntent();
         String username = postPageIntent.getStringExtra("Username");
-        Log.d("FRAGMENT3 USERNAME", username);
+        //Log.d("FRAGMENT3 USERNAME", username);
         signupUsername=username;
 
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
@@ -214,16 +214,6 @@ public class Fragment3  extends Fragment
 //        data=new ArrayList<String>();
 //
         mPostReference= FirebaseDatabase.getInstance().getReference();
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Context context3 = v.getContext();
-//                Toast.makeText(context3,"button success", Toast.LENGTH_SHORT).show();
-//                postFirebaseUserInfo(true);
-//            }
-//        });
-
-        ////////////////////////////////////////////////////////////////
 
         mLayout = v.findViewById(R.id.layout_main);
 
@@ -290,6 +280,7 @@ public class Fragment3  extends Fragment
         //////////////////////////////////////////////////////////////////////
 
         //////////////////////////Set Score////////////////////////////////////////
+        /*
         final DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("score_list");
         final Query query2=ref2.orderByChild("name");
 
@@ -356,6 +347,7 @@ public class Fragment3  extends Fragment
                 });
             }
         });
+         */
         ///////////////////////////////////////////////////////////////////////////
 
         return v;
@@ -413,6 +405,9 @@ public class Fragment3  extends Fragment
                     Log.d("keyboard","action_send");
                     break;
                 case EditorInfo.IME_ACTION_SEARCH: // SEARCH 버튼 클릭 =================================== 검색 버튼 클릭 시 이벤트
+                    final DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("score_list");
+                    final Query query2=ref2.orderByChild("name");
+
                     Log.d("keyboard","action_search");
                     EditText editText = (EditText) v.findViewById(R.id.addressET);
                     String address = editText.getText().toString();
@@ -437,7 +432,63 @@ public class Fragment3  extends Fragment
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(SEARCHED_PLACE));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
+                    query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String nowText = editText.getText().toString();
+                            Boolean found=false;
+                            for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                                // TODO: handle the post
+                                String key=postSnapshot.getKey();
+                                FirebaseScore get=postSnapshot.getValue(FirebaseScore.class);
+                                String[] info={get.name,get.score};
+                                //Log.d("POST[0]",postSnapshot.getKey());
+                                //Item result= new Item(info[0],info[1],); //수정 !!!
+                                // info[0] -> place list안에 들어가있는 이름들
+                                if(info[0].equals(nowText)){
+                                    found=true;
+                                    Log.d("POST[0]if",postSnapshot.getKey());
+                                    name=editText.getText().toString();
+                                    int currentScore=Integer.parseInt(info[1]);
+                                    currentScore+=1;
+                                    Log.d("userName",info[0]);
+                                    Log.d("currentScore",String.valueOf(currentScore));
+                                    score=Integer.toString(currentScore);
 
+                                    Map<String,Object> childUpdates=new HashMap<>();
+                                    Map<String,Object> postValues=null;
+                                    Log.d("scoreUpdate->", String.valueOf(score));
+                                    FirebaseScore post=new FirebaseScore(info[0],score);
+                                    postValues=post.toMap();
+                                    Log.d("scoreUpdate", String.valueOf(postValues));
+                                    childUpdates.put("/score_list/"+info[0], postValues);
+                                    mPostReference.updateChildren(childUpdates);
+                                    //Query query3=ref2.orderByChild("name").equalTo(name).
+                                    //ref2.child(name).child("score").updateChildren(name,score);
+                                }
+                            }
+                            if(found==false){
+
+                                name=nowText;
+                                int currentScore=1;
+                                score=Integer.toString(currentScore);
+                                Log.d("scoreUpdate->else", String.valueOf(score));
+
+                                Map<String,Object> childUpdates=new HashMap<>();
+                                Map<String,Object> postValues=null;
+                                Log.d("scoreUpdate->", String.valueOf(score));
+                                FirebaseScore post=new FirebaseScore(name, score);
+                                postValues=post.toMap();
+                                Log.d("scoreUpdate", String.valueOf(postValues));
+                                childUpdates.put("/score_list/"+nowText, postValues);
+                                mPostReference.updateChildren(childUpdates);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                     break;
             }
@@ -479,11 +530,13 @@ public class Fragment3  extends Fragment
                     locationAddress = bundle.getString("address");
                     lat = bundle.getString("lat");
                     lng = bundle.getString("lon");
+                    Log.d("location", "lat: "+lat+"  lng:"+lng);
                     break;
                 default:
                     locationAddress = null;
             }
-            latLongTV.setText(locationAddress);
+            Log.d("location", "locationAddress: "+locationAddress);
+            //latLongTV.setText(locationAddress);
 
             Log.d("location", "latlng"+ lat+" / "+lng);
 
