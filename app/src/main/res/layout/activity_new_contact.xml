@@ -58,7 +58,8 @@
             android:layout_height="50dp"
             android:ems="10"
             android:hint="Enter"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:enabled="false"/>
 
         <TextView
             android:layout_width="300dp"
@@ -75,7 +76,8 @@
             android:layout_height="50dp"
             android:ems="10"
             android:hint="Enter"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:enabled="false"/>
 
         <ImageButton
             android:src="@drawable/ic_launcher_foreground"

@@ -86,6 +86,8 @@ public class NewContact extends AppCompatActivity {
 
                 if(locationAddress!=null){
                     Toast.makeText(NewContact.this,"Restaurant location is searched", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(NewContact.this,"Restaurant location does not exist", Toast.LENGTH_SHORT).show();
                 }
 
             }
