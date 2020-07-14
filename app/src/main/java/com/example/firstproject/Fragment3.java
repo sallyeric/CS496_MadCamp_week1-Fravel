@@ -280,7 +280,7 @@ public class Fragment3  extends Fragment
         //////////////////////////////////////////////////////////////////////
 
         //////////////////////////Set Score////////////////////////////////////////
-        /*
+
         final DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("score_list");
         final Query query2=ref2.orderByChild("name");
 
@@ -347,7 +347,6 @@ public class Fragment3  extends Fragment
                 });
             }
         });
-         */
         ///////////////////////////////////////////////////////////////////////////
 
         return v;
@@ -409,7 +408,7 @@ public class Fragment3  extends Fragment
                     final Query query2=ref2.orderByChild("name");
 
                     Log.d("keyboard","action_search");
-                    EditText editText = (EditText) v.findViewById(R.id.addressET);
+                    final EditText editText = (EditText) v.findViewById(R.id.addressET);
                     String address = editText.getText().toString();
 
                     GeocodingLocation locationAddress = new GeocodingLocation();

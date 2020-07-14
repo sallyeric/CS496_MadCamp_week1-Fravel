@@ -49,7 +49,7 @@ public class NewContact extends AppCompatActivity {
 
     String templat="", templon="";
 
-    Button searchButton;
+    ImageButton searchButton;
 
     //image
     private static final int PICK_IMAGE=777;
@@ -74,7 +74,7 @@ public class NewContact extends AppCompatActivity {
         mStorageRef= FirebaseStorage.getInstance().getReference("Images");
 
         ////////////////////////LNGLAT///////////////////////////////////
-        searchButton = (Button) findViewById(R.id.search);
+        searchButton = (ImageButton) findViewById(R.id.search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -212,6 +212,8 @@ public class NewContact extends AppCompatActivity {
         @Override
         public void handleMessage(Message message) {
             String locationAddress;
+            TextView no = (TextView) findViewById(R.id.notokmessage);
+            TextView yes = (TextView) findViewById(R.id.okmessage);
             switch (message.what) {
                 case 1:
                     Bundle bundle = message.getData();
@@ -228,10 +230,14 @@ public class NewContact extends AppCompatActivity {
                         templon=temp2;
                         numberET.setEnabled(true);
                         reviewET.setEnabled(true);
+                        yes.setVisibility(View.VISIBLE);
+                        no.setVisibility(View.INVISIBLE);
                         Toast.makeText(NewContact.this,"Restaurant location is searched", Toast.LENGTH_SHORT).show();
                     }else{
                         templat="0";
                         templon="0";
+                        no.setVisibility(View.VISIBLE);
+                        yes.setVisibility(View.INVISIBLE);
                         Toast.makeText(NewContact.this,"Restaurant location does not exist", Toast.LENGTH_SHORT).show();
                         numberET.setEnabled(false);
                         reviewET.setEnabled(false);
