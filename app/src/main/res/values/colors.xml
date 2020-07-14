@@ -5,4 +5,12 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="buttonColor">#6200EE</color>
     <color name="transparent">#1A000000</color>
+
+
+    <color name="color1">#EC5176</color>
+    <color name="color2">#F15F3F</color>
+    <color name="color3">#676A76</color>
+    <color name="color4">#AAAAAA</color>
+    <color name="color5">#FFFFFF</color>
+
 </resources>

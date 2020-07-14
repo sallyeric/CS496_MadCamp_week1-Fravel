@@ -8,17 +8,19 @@
     <LinearLayout
         android:id="@+id/horizontal_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         android:clickable="true"
         tools:ignore="MissingConstraints">
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_margin="13dp"
-            android:src='@drawable/ic_person'
+            android:layout_gravity="center|center_vertical"
+            android:src='@drawable/ic_shop'
+            android:tint="@color/color1"
             />
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -26,6 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="7dp"
+            android:layout_marginTop="5dp"
             android:paddingBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="15dp"
@@ -39,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="#000000"
-                android:textSize="23dp"
+                android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
