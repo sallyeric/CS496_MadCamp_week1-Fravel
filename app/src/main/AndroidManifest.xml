@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.firstproject" >
+    package="com.example.firstproject">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
@@ -10,8 +10,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="false"
@@ -20,7 +19,8 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@drawable/custom_rounded_button" />
@@ -32,18 +32,22 @@
             android:value="AIzaSyAfIjvwG_BNS_7OtnrDsPPWtz40E0A1Tek" />
 
         <activity android:name=".NewContact" />
-        <activity android:name=".Splash"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".Splash"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" > </activity>
-        <activity android:name=".FullScreenActivity" android:theme="@style/Transparent"></activity>
-
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".SignUp"></activity>
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".FullScreenActivity"
+            android:theme="@style/Transparent" />
     </application>
 
 </manifest>

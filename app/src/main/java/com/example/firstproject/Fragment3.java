@@ -27,6 +27,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
@@ -82,7 +85,7 @@ public class Fragment3  extends Fragment
         ActivityCompat.OnRequestPermissionsResultCallback{
 
     ////////////////////////////geocoding////////////////////////////
-    Button addressButton;
+    ImageButton addressButton;
     TextView addressTV;
     TextView latLongTV;
     EditText editText;
@@ -99,8 +102,11 @@ public class Fragment3  extends Fragment
 //    //ArrayList<String> data;
 //
     String name="";
+    String score="";
     double lat=0.0f;
     double lng=0.0f;
+
+    String signupUsername="";
 //    ArrayList<Item2> list = new ArrayList<>();
 //    ArrayAdapter<String> adapter;
 //
@@ -187,6 +193,11 @@ public class Fragment3  extends Fragment
 
         final View v = inflater.inflate(R.layout.fragment_3, null, false); // 원래 null 아니고 container
 
+        Intent postPageIntent = getActivity().getIntent();
+        String username = postPageIntent.getStringExtra("Username");
+        Log.d("FRAGMENT3 USERNAME", username);
+        signupUsername=username;
+
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -194,7 +205,7 @@ public class Fragment3  extends Fragment
         addressTV = (TextView) v.findViewById(R.id.addressTV);
         latLongTV = (TextView) v.findViewById(R.id.latLongTV);
 
-        EditText editText = (EditText) v.findViewById(R.id.addressET);
+        final EditText editText = (EditText) v.findViewById(R.id.addressET);
         editText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
         editText.setOnEditorActionListener(editorListener);
@@ -250,7 +261,7 @@ public class Fragment3  extends Fragment
         previous_marker = new ArrayList<Marker>();
 
         ///////////////////////////Firebase////////////////////////////////////
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
+        final DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
         final Query query=ref.orderByChild("name");
 
         Button button = (Button)v.findViewById(R.id.markerbutton);
@@ -288,8 +299,91 @@ public class Fragment3  extends Fragment
         });
         //////////////////////////////////////////////////////////////////////
 
+        //////////////////////////Set Score////////////////////////////////////////
+        final DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("score_list");
+        final Query query2=ref2.orderByChild("name");
+
+        addressButton = (ImageButton)v.findViewById(R.id.addressButton);
+        addressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String nowText = editText.getText().toString();
+                        Boolean found=false;
+                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                            // TODO: handle the post
+                            String key=postSnapshot.getKey();
+                            FirebaseScore get=postSnapshot.getValue(FirebaseScore.class);
+                            String[] info={get.name,get.score};
+                            //Log.d("POST[0]",postSnapshot.getKey());
+                            //Item result= new Item(info[0],info[1],); //수정 !!!
+                            // info[0] -> place list안에 들어가있는 이름들
+                            if(info[0].equals(nowText)){
+                                found=true;
+                                Log.d("POST[0]if",postSnapshot.getKey());
+                                name=editText.getText().toString();
+                                int currentScore=Integer.parseInt(info[1]);
+                                currentScore+=1;
+                                Log.d("userName",info[0]);
+                                Log.d("currentScore",String.valueOf(currentScore));
+                                score=Integer.toString(currentScore);
+
+                                Map<String,Object> childUpdates=new HashMap<>();
+                                Map<String,Object> postValues=null;
+                                Log.d("scoreUpdate->", String.valueOf(score));
+                                FirebaseScore post=new FirebaseScore(info[0],score);
+                                postValues=post.toMap();
+                                Log.d("scoreUpdate", String.valueOf(postValues));
+                                childUpdates.put("/score_list/"+info[0], postValues);
+                                mPostReference.updateChildren(childUpdates);
+                                //Query query3=ref2.orderByChild("name").equalTo(name).
+                                //ref2.child(name).child("score").updateChildren(name,score);
+                            }
+                        }
+                        if(found==false){
+
+                            name=nowText;
+                            int currentScore=1;
+                            score=Integer.toString(currentScore);
+                            Log.d("scoreUpdate->else", String.valueOf(score));
+
+                            Map<String,Object> childUpdates=new HashMap<>();
+                            Map<String,Object> postValues=null;
+                            Log.d("scoreUpdate->", String.valueOf(score));
+                            FirebaseScore post=new FirebaseScore(name, score);
+                            postValues=post.toMap();
+                            Log.d("scoreUpdate", String.valueOf(postValues));
+                            childUpdates.put("/score_list/"+nowText, postValues);
+                            mPostReference.updateChildren(childUpdates);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        ///////////////////////////////////////////////////////////////////////////
+
         return v;
     }
+
+    public void postFirebaseDatabase2(boolean add){
+        Map<String,Object> childUpdates=new HashMap<>();
+        Map<String,Object> postValues=null;
+        if(add){
+            FirebaseScore post=new FirebaseScore(name,score);
+            postValues=post.toMap();
+        }
+        Log.d("scoreUpdatepp", String.valueOf(postValues));
+        childUpdates.put("/score_list/"+name,postValues);
+        mPostReference.updateChildren(childUpdates);
+        //clearET();
+    }
+
 
     ///////////////////////////////200714/////////////////////////////////////////////////
     private static final float DEFAULT_ZOOM = 15f;
@@ -306,10 +400,8 @@ public class Fragment3  extends Fragment
         }catch (IOException e){
             Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
         }
-
         if(list.size() > 0){
             Address address = list.get(0);
-
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
 

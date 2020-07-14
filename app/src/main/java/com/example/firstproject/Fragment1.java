@@ -54,6 +54,7 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     String number="";
     String address="";
     ListView listView;
+    String signupUsername="";
 
     //ArrayList<Item> list; // 아래에 수정
     private ArrayList<Item> list = new ArrayList<>();
@@ -122,6 +123,7 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
 
         View v = inflater.inflate(R.layout.fragment_1, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView1);
+
         mPostReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("name_list");
         final Query query = ref.orderByChild("name");

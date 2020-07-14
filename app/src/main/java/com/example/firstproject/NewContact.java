@@ -286,6 +286,8 @@ public class NewContact extends AppCompatActivity {
         //clearET();
     }
 
+
+
     public void clearET(){
         nameET.setText("");
         numberET.setText("");
