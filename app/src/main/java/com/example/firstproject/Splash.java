@@ -61,7 +61,7 @@ public class Splash extends AppCompatActivity {
                 try {
                     // Thread will sleep for 10 seconds
                     sleep(2*1000);
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
                 } catch (Exception e) {
 
