@@ -28,5 +28,5 @@
         android:layout_height="50dp"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="20dp"
-        android:elevation="7dp" />
+        android:elevation="5dp" />
 </FrameLayout>

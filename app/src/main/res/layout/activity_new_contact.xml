@@ -12,50 +12,71 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
         <TextView
-            android:layout_width="380dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textSize="30dp"
             android:textColor="@color/color2"
             android:textStyle="bold"
-            android:text="RECOMMNED" />
+            android:text="Add New Place" />
 
         <TextView
-            android:layout_width="380dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:textSize="15dp"
             android:textColor="#000000"
             android:textStyle="bold"
             android:text="Restaurant Name" />
 
     <LinearLayout
-        android:layout_width="380dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <EditText
-            android:layout_width="280dp"
+            android:layout_width="240dp"
             android:layout_height="50dp"
             android:id="@+id/addName"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/addressTV"
             android:singleLine="true"
             android:hint="Enter restaurant name" />
-        <Button
+
+        <ImageButton
             android:id="@+id/search"
-            android:layout_width="80dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/circle_button2"
+            android:src="@drawable/ic_baseline_search_24"
             android:textSize="10dp"
-            android:text="search"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/notokmessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="invalid input (please more specific)"
+                android:textColor="@color/color1"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/okmessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="valid input"
+                android:textColor="@android:color/holo_green_dark"
+                android:layout_centerInParent="true"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
 
         <TextView
-            android:layout_width="380dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="0dp"
             android:textSize="15dp"
             android:textColor="#000000"
             android:textStyle="bold"
@@ -63,17 +84,17 @@
 
         <EditText
             android:id="@+id/addNumber"
-            android:layout_width="380dp"
+            android:layout_width="300dp"
             android:layout_height="50dp"
             android:ems="10"
-            android:hint="Enter"
+            android:hint="Enter restaurant phone number"
             android:inputType="number"
             android:enabled="false"/>
 
         <TextView
-            android:layout_width="380dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:textSize="15dp"
             android:textColor="#000000"
             android:textStyle="bold"
@@ -81,19 +102,20 @@
 
         <EditText
             android:id="@+id/addReview"
-            android:layout_width="380dp"
-            android:layout_height="50dp"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
             android:ems="10"
-            android:hint="Enter"
+            android:hint="Write your comment"
             android:inputType="text"
+            android:singleLine="false"
             android:enabled="false"/>
 
         <ImageButton
             android:src="@drawable/ic_launcher_foreground"
             android:id="@+id/imagebtn"
-            android:layout_marginTop="20dp"
-            android:layout_width="200dp"
-            android:layout_height="200dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_width="240dp"
+            android:layout_height="130dp"/>
 
         <TextView
             android:id="@+id/signupButton"

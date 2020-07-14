@@ -76,6 +76,7 @@ public class Fragment3  extends Fragment
 
     ////////////////////////////geocoding////////////////////////////
     ImageButton likeButton;
+    ImageButton lookforButton;
     TextView addressTV;
     TextView latLongTV;
     EditText editText;
@@ -185,7 +186,7 @@ public class Fragment3  extends Fragment
 
         Intent postPageIntent = getActivity().getIntent();
         String username = postPageIntent.getStringExtra("Username");
-        Log.d("FRAGMENT3 USERNAME", username);
+        //Log.d("FRAGMENT3 USERNAME", username);
         signupUsername=username;
 
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
@@ -214,16 +215,6 @@ public class Fragment3  extends Fragment
 //        data=new ArrayList<String>();
 //
         mPostReference= FirebaseDatabase.getInstance().getReference();
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Context context3 = v.getContext();
-//                Toast.makeText(context3,"button success", Toast.LENGTH_SHORT).show();
-//                postFirebaseUserInfo(true);
-//            }
-//        });
-
-        ////////////////////////////////////////////////////////////////
 
         mLayout = v.findViewById(R.id.layout_main);
 
@@ -254,8 +245,10 @@ public class Fragment3  extends Fragment
         final DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("place_list");
         final Query query=ref.orderByChild("name");
 
-        ImageButton button = (ImageButton)v.findViewById(R.id.likeButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        likeButton = (ImageButton)v.findViewById(R.id.likeButton);
+        lookforButton = (ImageButton)v.findViewById(R.id.lookforButton);
+
+        lookforButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //showPlaceInformation(currentPosition);
@@ -290,6 +283,7 @@ public class Fragment3  extends Fragment
         //////////////////////////////////////////////////////////////////////
 
         //////////////////////////Set Score////////////////////////////////////////
+
         final DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("score_list");
         final Query query2=ref2.orderByChild("name");
 
@@ -305,7 +299,7 @@ public class Fragment3  extends Fragment
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             // TODO: handle the post
                             String key=postSnapshot.getKey();
-                            FirebaseScore get=postSnapshot.getValue(FirebaseScore.class);
+                            FirebaseScore get=postSnapshot.getValue(FirebaseScore .class);
                             String[] info={get.name,get.score};
                             //Log.d("POST[0]",postSnapshot.getKey());
                             //Item result= new Item(info[0],info[1],); //수정 !!!
@@ -413,13 +407,17 @@ public class Fragment3  extends Fragment
                     Log.d("keyboard","action_send");
                     break;
                 case EditorInfo.IME_ACTION_SEARCH: // SEARCH 버튼 클릭 =================================== 검색 버튼 클릭 시 이벤트
+                    final DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("score_list");
+                    final Query query2=ref2.orderByChild("name");
+
                     Log.d("keyboard","action_search");
-                    EditText editText = (EditText) v.findViewById(R.id.addressET);
+                    final EditText editText = (EditText) v.findViewById(R.id.addressET);
                     String address = editText.getText().toString();
 
                     GeocodingLocation locationAddress = new GeocodingLocation();
                     locationAddress.getAddressFromLocation(address,
                             getActivity().getApplicationContext(), new GeocoderHandler());
+
 
 
                     LatLng SEARCHED_PLACE = new LatLng(lat, lng);
@@ -436,9 +434,6 @@ public class Fragment3  extends Fragment
                     mMap.addMarker(markerOptions);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(SEARCHED_PLACE));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-
-
-
                     break;
             }
             return false;
@@ -479,14 +474,19 @@ public class Fragment3  extends Fragment
                     locationAddress = bundle.getString("address");
                     lat = bundle.getString("lat");
                     lng = bundle.getString("lon");
+                    Log.d("location", "lat: "+lat+"  lng:"+lng);
                     break;
                 default:
                     locationAddress = null;
             }
-            latLongTV.setText(locationAddress);
+            Log.d("location", "locationAddress: "+locationAddress);
+            //latLongTV.setText(locationAddress);
 
             Log.d("location", "latlng"+ lat+" / "+lng);
-
+            if(lat==null || lng==null){
+                Log.d("location","null error!");
+                return;
+            }
             LatLng SEARCHED_PLACE = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
             /*
             MarkerOptions markerOptions = new MarkerOptions();

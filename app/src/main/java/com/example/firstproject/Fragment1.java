@@ -89,7 +89,7 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     @Override
     public void onItemSelected(View v, int position) {
         SimpleTextAdapter.Holder viewHolder = (SimpleTextAdapter.Holder)recyclerView.findViewHolderForAdapterPosition(position);
-        Toast.makeText(this.getContext(),  "clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getContext(),  "Press long to call", Toast.LENGTH_SHORT).show();
         Log.d("test","long clicked");
         //v.setBackgroundColor(Color.BLUE);
         //팝업
@@ -99,7 +99,7 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     @Override
     public void onItemLongSelected(View v, int position) {
         Log.d("tab1test","clicked");
-        Toast.makeText(getActivity().getApplicationContext(), position+" long pressed!" , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity().getApplicationContext(), position+" " , Toast.LENGTH_SHORT).show();
         //다이얼
         //String tel="tel:" + number;
         //Log.d("MY PHONE:",tel);
