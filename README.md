@@ -1,14 +1,29 @@
-# CS496_MadCamp_Pr1
+# CS496_MadCamp_Week1
+
 ## Tab Application : Fravel (Food & Travel platform)
 
-장영재 진승현
+A social sharing application for restaurants that can organically link contacts, galleries, and maps.
 
-세 개의 탭이 존재함
-* 첫 번째 탭: 나의 연락처 구축. 휴대폰의 연락처 데이터를 읽어 오거나 JSON 형식을 이용해서 임의의 연락처 데이터를 구축. ListView나 RecyclerView 등을 이용해서 데이터 보여 주기
-* 두 번째 탭: 나만의 이미지 갤러리 구축. 이미지는 대략 20개 정도
-* 세 번째 탭: 자유 주제
+
+### Tab1
+
+> Recycler View, Firebase Realtime database
+
+### Tab2
+
+> Recycler View
+
+### Tab3
+
+Google Maps API
+Finding
 
 
 
 ### 공통과제 Google Docs
 https://docs.google.com/document/d/1zV8aeyqxHAsjCEAaZWlb4dpmD02plhq_aMRHoIKuz5Q/edit
+
+
+## Collaborators
+* [Youngjae, Jang]
+* [Seunghyeon, Jin]
