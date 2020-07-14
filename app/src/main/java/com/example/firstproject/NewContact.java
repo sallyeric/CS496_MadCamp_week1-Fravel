@@ -84,11 +84,11 @@ public class NewContact extends AppCompatActivity {
                 GeocodingLocation locationAddress = new GeocodingLocation();
                 locationAddress.getAddressFromLocation(address, getApplicationContext(), new GeocoderHandler());
 
-                if(locationAddress!=null){
-                    Toast.makeText(NewContact.this,"Restaurant location is searched", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(NewContact.this,"Restaurant location does not exist", Toast.LENGTH_SHORT).show();
-                }
+//                if(locationAddress!=null){
+//                    Toast.makeText(NewContact.this,"Restaurant location is searched", Toast.LENGTH_SHORT).show();
+//                }else{
+//                    Toast.makeText(NewContact.this,"Restaurant location does not exist", Toast.LENGTH_SHORT).show();
+//                }
 
             }
         });
@@ -227,9 +227,13 @@ public class NewContact extends AppCompatActivity {
                         templon=temp2;
                         numberET.setEnabled(true);
                         reviewET.setEnabled(true);
+                        Toast.makeText(NewContact.this,"Restaurant location is searched", Toast.LENGTH_SHORT).show();
                     }else{
                         templat="0";
                         templon="0";
+                        Toast.makeText(NewContact.this,"Restaurant location does not exist", Toast.LENGTH_SHORT).show();
+                        numberET.setEnabled(false);
+                        reviewET.setEnabled(false);
                     }
 
 //                    templat=temp1;
