@@ -56,8 +56,8 @@
             android:id="@+id/moreInfo"
             android:src="@drawable/ic_baseline_arrow_forward_ios_24"
             android:background="@drawable/rounded_button_purple"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end|bottom"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"/>

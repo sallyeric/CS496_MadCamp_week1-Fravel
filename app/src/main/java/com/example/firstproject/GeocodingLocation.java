@@ -29,8 +29,7 @@ public class GeocodingLocation {
                     if (addressList != null && addressList.size() > 0) {
                         Address address = (Address) addressList.get(0);
                         StringBuilder sb = new StringBuilder();
-                        sb.append(address.getLatitude()).append("\n");
-                        sb.append(address.getLongitude()).append("\n");
+                        sb.append(address.getLatitude()).append(", ").append(address.getLongitude());
                         lat0 = address.getLatitude();
                         lon0 = address.getLongitude();
                         result = sb.toString();
@@ -43,8 +42,7 @@ public class GeocodingLocation {
                     if (result != null) {
                         message.what = 1;
                         Bundle bundle = new Bundle();
-                        result = "Address: " + locationAddress +
-                                "\n\nLatitude and Longitude :\n" + result;
+                        //result = "Address: " + locationAddress + "\n\nLatitude and Longitude :\n" + result;
                         bundle.putString("address", result);
                         bundle.putString("lat", String.valueOf(lat0));
                         bundle.putString("lon", String.valueOf(lon0));

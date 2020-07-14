@@ -1,43 +1,27 @@
 package com.example.firstproject;
 
+import android.os.Bundle;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.graphics.Movie;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import com.google.android.material.tabs.TabLayout;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -47,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment3 fragment3;
 
     public ArrayList<PhoneBook> phoneBooks;
+    //public ArrayList<ImageUrl> imageUrlList = new ArrayList<ImageUrl>();
     private ImageView imageView;
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
@@ -55,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)) {
-
             } else {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_CONTACTS},
@@ -66,16 +51,19 @@ public class MainActivity extends AppCompatActivity {
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
             } else {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         1);
             }
         }
-
+        */
+        setTitle("");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
-        viewPagerAdapter.addFragment(fragment1, "Contact");
-        viewPagerAdapter.addFragment(fragment2, "Gallery");
-        viewPagerAdapter.addFragment(fragment3, "Third");
+        viewPagerAdapter.addFragment(fragment1, "");
+        viewPagerAdapter.addFragment(fragment2, "");
+        viewPagerAdapter.addFragment(fragment3, "");
         viewPager.setAdapter(viewPagerAdapter);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_account_circle_24px);
@@ -103,26 +91,6 @@ public class MainActivity extends AppCompatActivity {
         //badgeDrawable.setVisible(true);
         //badgeDrawable.setNumber(12);]
 
-        //final DisplayMetrics displayMetrics=getResources().getDisplayMetrics();
-        //final float screenWidthInDp=displayMetrics.widthPixels;
-        //Log.wtf("test","kaist");
-        //Log.wtf("ScreenWidth", "width: "+screenWidthInDp+", menuWidth: "+screenWidthInDp/3);
-
-        /*
-        phoneBooks=new ArrayList<>();
-        phoneBooks=contactLoader.getData(this);
-        Log.d("phoneBooks","-->"+phoneBooks.get(0).getName());
-        RecyclerView recyclerView = findViewById(R.id.dataList) ;
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), 1));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)) ;
-
-         */
-        /*
-        Tab1TextAdapter adapter = new Tab1TextAdapter(phoneBooks) ;
-        recyclerView.setAdapter(adapter);
-        ts1.setIndicator("PhoneBook");
-        tabHost1.addTab(ts1);
-         */
 
     }
 

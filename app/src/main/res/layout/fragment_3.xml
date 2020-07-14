@@ -1,73 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/layout_main"
-    android:orientation="vertical"
-    tools:context=".Fragment3">
+    android:layout_height="match_parent">
 
-
-    <LinearLayout
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Address"
-            android:id="@+id/addressTV"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_alignParentStart="true" />
+        android:id="@+id/map"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:elevation="10dp"
+        android:background="@drawable/white_border"
+        android:id="@+id/relLayout1">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/ic_search"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_search" />
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/ic_search"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:textColor="#000"
             android:id="@+id/addressET"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/addressTV"
-            android:singleLine="true"
-            android:text="1600 Pennsylvania Ave NW Washington DC 20502" />
-
+            android:background="@null"
+            android:hint="Enter Address, City or Zip Code"
+            android:imeOptions="actionSearch"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="Show Lat/Long"
+            android:text="Search"
             android:id="@+id/addressButton"
             android:layout_below="@+id/addressTV"
             android:layout_toEndOf="@+id/addressTV"
-            android:layout_marginTop="50dp" />
+            android:layout_alignParentRight="true"
+            android:background="@drawable/rounded_button" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:elevation="10dp"
+        android:background="@drawable/white_border"
+        android:orientation="horizontal"
+        android:id="@+id/relLayout2">
+
+        <Button
+            android:text="장소검색"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/rounded_button"
+            android:id="@+id/button"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=""
+            android:textSize="13dp"
+            android:text="address"
             android:id="@+id/latLongTV"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="150dp"
             android:layout_toEndOf="@+id/addressTV" />
 
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:id="@+id/map"
-            tools:context=".MapsActivity"
-            android:name="com.google.android.gms.maps.SupportMapFragment" >
-        </fragment>
-
         <Button
-            android:text="장소검색"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/button"/>
-
-        <Button
+            android:text="Add"
             android:id="@+id/button1"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_height="50dp"
-            android:text="Add"/>
+            android:layout_alignParentRight="true"
+            android:background="@drawable/rounded_button" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</ScrollView>
+
+</RelativeLayout>
