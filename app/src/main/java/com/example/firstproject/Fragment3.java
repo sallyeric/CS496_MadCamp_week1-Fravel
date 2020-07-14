@@ -330,6 +330,8 @@ public class Fragment3  extends Fragment
                 query2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String nowText = editText.getText().toString();
+                        Boolean found=false;
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             // TODO: handle the post
                             String key=postSnapshot.getKey();
@@ -337,7 +339,9 @@ public class Fragment3  extends Fragment
                             String[] info={get.name,get.score};
                             //Log.d("POST[0]",postSnapshot.getKey());
                             //Item result= new Item(info[0],info[1],); //수정 !!!
-                            if(info[0].equals(editText.getText().toString())){
+                            // info[0] -> place list안에 들어가있는 이름들
+                            if(info[0].equals(nowText)){
+                                found=true;
                                 Log.d("POST[0]if",postSnapshot.getKey());
                                 name=editText.getText().toString();
                                 int currentScore=Integer.parseInt(info[1]);
@@ -345,8 +349,6 @@ public class Fragment3  extends Fragment
                                 Log.d("userName",info[0]);
                                 Log.d("currentScore",String.valueOf(currentScore));
                                 score=Integer.toString(currentScore);
-
-                                //postFirebaseDatabase2(true);
 
                                 Map<String,Object> childUpdates=new HashMap<>();
                                 Map<String,Object> postValues=null;
@@ -359,23 +361,22 @@ public class Fragment3  extends Fragment
                                 //Query query3=ref2.orderByChild("name").equalTo(name).
                                 //ref2.child(name).child("score").updateChildren(name,score);
                             }
-                            else{
-                                Log.d("POST[0]else",postSnapshot.getKey());
-                                name=editText.getText().toString();
-                                int currentScore=1;
-                                score=Integer.toString(currentScore);
-                                Log.d("scoreUpdate->else", String.valueOf(score));
+                        }
+                        if(found==false){
 
-                                Map<String,Object> childUpdates=new HashMap<>();
-                                Map<String,Object> postValues=null;
-                                Log.d("scoreUpdate->", String.valueOf(score));
-                                FirebaseScore post=new FirebaseScore(info[0],score);
-                                postValues=post.toMap();
-                                Log.d("scoreUpdate", String.valueOf(postValues));
-                                childUpdates.put("/score_list/"+info[0], postValues);
-                                mPostReference.updateChildren(childUpdates);
-                            }
+                            name=nowText;
+                            int currentScore=1;
+                            score=Integer.toString(currentScore);
+                            Log.d("scoreUpdate->else", String.valueOf(score));
 
+                            Map<String,Object> childUpdates=new HashMap<>();
+                            Map<String,Object> postValues=null;
+                            Log.d("scoreUpdate->", String.valueOf(score));
+                            FirebaseScore post=new FirebaseScore(name, score);
+                            postValues=post.toMap();
+                            Log.d("scoreUpdate", String.valueOf(postValues));
+                            childUpdates.put("/score_list/"+nowText, postValues);
+                            mPostReference.updateChildren(childUpdates);
                         }
                     }
                     @Override
