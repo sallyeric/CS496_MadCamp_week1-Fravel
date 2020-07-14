@@ -36,12 +36,10 @@ tools:context=".Fragment2">
     <ImageButton
         android:id="@+id/newContact"
         android:src="@drawable/ic_baseline_add_24"
-        android:background="@drawable/circle_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:background="@drawable/circle_button2"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|bottom"
         android:layout_marginBottom="20dp"
-        android:elevation="10dp"
-
-        android:layout_marginRight="20dp"/>
+        android:elevation="7dp" />
 </FrameLayout>

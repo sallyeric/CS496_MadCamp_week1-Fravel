@@ -25,7 +25,6 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
     public interface OnListItemSelectedInterface {
         void onItemSelected(View v, int position);
     }
-
     private OnListItemSelectedInterface mListener;
     private OnListItemLongSelectedInterface mLongListener;
 
@@ -40,14 +39,12 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
         this.mLongListener = longListener;
     }
 
-
     // ViewHolder 생성
     // row layout을 화면에 뿌려주고 holder에 연결
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
-        Holder holder = new Holder(view);
-        return holder;
+    public Holder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_item, viewGroup, false);
+        return new Holder(view);
     }
 
     /*
@@ -78,26 +75,23 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
             super(view);
             nameText = (TextView) view.findViewById(R.id.name_tv);
             numberText = (TextView) view.findViewById(R.id.number_tv);
-
-
+            Log.d("Contact", "make one");
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    Log.d("Contact", "clicked ");
+                public void onClick(View v){
                     int position = getAdapterPosition();
                     mListener.onItemSelected(v, position);
                     Log.d("Contact", "clicked "+getAdapterPosition());
                 }
             });
-
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(View v){
+                    mLongListener.onItemLongSelected(v, getAdapterPosition());
                     Log.d("Recyclerview", "position = "+ getAdapterPosition());
                     return false;
                 }
             });
-
         }
     }
 }

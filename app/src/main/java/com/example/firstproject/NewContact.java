@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -94,7 +95,7 @@ public class NewContact extends AppCompatActivity {
         });
         //////////////////////////////////////////////////////////////////
 
-        Button login = (Button)findViewById(R.id.signupButton);
+        TextView login = (TextView)findViewById(R.id.signupButton);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
