@@ -30,13 +30,19 @@
             android:value="AIzaSyAfIjvwG_BNS_7OtnrDsPPWtz40E0A1Tek" />
 
         <activity android:name=".NewContact" />
-        <activity android:name=".MainActivity" >
+        <activity android:name=".Splash"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" >
+        </activity>
+        <activity android:name=".FullScreenActivity" android:theme="@style/Transparent"></activity>
+
     </application>
 
 </manifest>

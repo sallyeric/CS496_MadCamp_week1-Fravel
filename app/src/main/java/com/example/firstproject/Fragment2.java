@@ -145,6 +145,7 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
+                imageUrlList.clear();
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     String key=postSnapshot.getKey();
                     FirebasePost get=postSnapshot.getValue(FirebasePost.class);

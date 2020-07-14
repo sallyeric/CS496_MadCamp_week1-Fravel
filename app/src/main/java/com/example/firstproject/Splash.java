@@ -80,6 +80,10 @@ public class Splash extends AppCompatActivity {
             permissionsNeeded.add("READ");
         if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
             permissionsNeeded.add("WRITE");
+        if (!addPermission(permissionsList, Manifest.permission.ACCESS_FINE_LOCATION))
+            permissionsNeeded.add("READ");
+        if (!addPermission(permissionsList, Manifest.permission.ACCESS_FINE_LOCATION))
+            permissionsNeeded.add("WRITE");
 
         if (permissionsList.size() > 0) {
             if (permissionsNeeded.size() > 0) {

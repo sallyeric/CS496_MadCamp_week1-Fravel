@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class NewContact extends AppCompatActivity {
     private DatabaseReference mPostReference;
-    String name="", number="", review="", img="";
+    static String name="", number="", review="", img="";
     double lat=0.0F, lng=0.0F;
     String sort="name";
     EditText nameET,numberET, reviewET;
@@ -109,11 +109,11 @@ public class NewContact extends AppCompatActivity {
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.getChildrenCount()>0) {
+                            if(dataSnapshot.getChildrenCount()>0){
                                 //username found
                                 Toast.makeText(NewContact.this,"Restaurant already exists.", Toast.LENGTH_SHORT).show();
-
-                            }else{
+                            }
+                            else{
                                 // username not found
                                 Toast.makeText(NewContact.this,"add success", Toast.LENGTH_SHORT).show();
 
@@ -137,7 +137,6 @@ public class NewContact extends AppCompatActivity {
                                             img = String.valueOf(uploadTask.getResult());
                                         }
                                     });*/
-
                                     final StorageReference riverseRef=mStorageRef.child(currentImageUri.getLastPathSegment());
                                     final UploadTask uploadTask=riverseRef.putFile(currentImageUri);
                                     Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -153,17 +152,18 @@ public class NewContact extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Uri> task) {
                                             if(task.isSuccessful()){
                                                 Uri downloadUri = task.getResult();
-                                                Log.d("firebaseUrl1", String.valueOf(downloadUri));
+                                                Log.d("imageLog", String.valueOf(downloadUri));
                                                 img = String.valueOf(downloadUri);
                                                 setImgUrl(String.valueOf(downloadUri));
+                                                postFirebaseDatabase(true, img);
                                             }else{
 
                                             }
                                         }
                                     });
                                 }
-                                Log.d("inSetImgUrl22","this img "+img);
-                                postFirebaseDatabase(true);
+                                Log.d("imageLog","this img "+img);
+                                //postFirebaseDatabase(true, img);
 
                                 //Intent
                                 Intent signupIntent = new Intent(NewContact.this, MainActivity.class);
@@ -177,6 +177,13 @@ public class NewContact extends AppCompatActivity {
                     });
                 }
             }
+
+            public void setImgUrl(String url){
+                img = url;
+                //this.img = url;
+                Log.d("imageLog","this img"+img);
+            }
+
         });
 
         ImageButton image=(ImageButton)findViewById(R.id.imagebtn);
@@ -187,6 +194,8 @@ public class NewContact extends AppCompatActivity {
                 startActivityForResult(gallery,PICK_IMAGE);
             }
         });
+
+
     }
     //////////////////////////////////////////////////////////////////////////
     private class GeocoderHandler extends Handler {
@@ -213,10 +222,7 @@ public class NewContact extends AppCompatActivity {
         }
     }
 
-    public void setImgUrl(String url){
-        this.img = url;
-        Log.d("inSetImgUrl","this img"+this.img);
-    }
+
     //////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -230,12 +236,13 @@ public class NewContact extends AppCompatActivity {
         }
     }
 
-    public void postFirebaseDatabase(boolean add){
+    public void postFirebaseDatabase(boolean add, String imageurl){
         Map<String,Object> childUpdates=new HashMap<>();
         Map<String,Object> postValues=null;
         if(add){
-            FirebasePost post=new FirebasePost(name,number, review, img);
-            Log.d("postFirebaseDatabase", "+++"+post.img);
+            FirebasePost post=new FirebasePost(name,number, review, imageurl);
+            Log.d("imageLog", "Firebase ->"+post.name+" "+post.number+" "+post.img);
+            Log.d("imageLog", img+" "+this.img+" "+post.img);
             postValues=post.toMap();
         }
         childUpdates.put("/name_list/"+name,postValues);
