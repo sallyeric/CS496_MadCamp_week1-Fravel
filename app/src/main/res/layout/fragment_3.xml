@@ -1,35 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/layout_main"
-    tools:context=".Fragment3">
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:id="@+id/map"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
 
-        <fragment
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:elevation="10dp"
+        android:background="@drawable/white_border"
+        android:id="@+id/relLayout1">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:id="@+id/ic_search"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_search" />
+
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:layout_weight="1"
-            android:id="@+id/map"
-            tools:context=".MapsActivity"
-            android:name="com.google.android.gms.maps.SupportMapFragment" >
-        </fragment>
-
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/ic_search"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:textColor="#000"
+            android:id="@+id/addressET"
+            android:background="@null"
+            android:hint="Enter Address, City or Zip Code"
+            android:imeOptions="actionSearch"/>
+        <!--
         <Button
-            android:text="장소검색"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/button"/>
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/addressButton"
+            android:layout_below="@+id/addressTV"
+            android:layout_toEndOf="@+id/addressTV"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            />-->
 
-        <Button
-            android:id="@+id/button1"
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:elevation="10dp"
+        android:background="@drawable/white_border"
+        android:orientation="horizontal"
+        android:id="@+id/relLayout2">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Add"/>
-    </LinearLayout>
-</FrameLayout>
+            android:layout_height="match_parent">
+            <Button
+                android:text="장소검색"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="left"
+                android:background="@drawable/rounded_button"
+                android:id="@+id/button"/>
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:text="address"
+                android:id="@+id/latLongTV"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center" />
+
+            <Button
+                android:text="Add"
+                android:id="@+id/button1"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="right"
+                android:background="@drawable/rounded_button" />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

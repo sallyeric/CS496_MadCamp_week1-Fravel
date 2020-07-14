@@ -38,18 +38,19 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
     public ArrayList<imgFormat> localPhotoList;
 
     private DatabaseReference mDatabaseRef;
+    ImageAdapter dataAdapter;
 
 
     private ArrayList<Item> list = new ArrayList<>();
-    ArrayList<ImageUrl> lalala = new ArrayList<>();
     static ArrayList<ImageUrl> imageUrlList = new ArrayList<>();
-
 
     FirebaseDatabase mFirebaseDatabase;
     DatabaseReference mDatabaseReference;
 
     FirebaseStorage storage;
     StorageReference storageReference;
+
+    private StorageReference mStorageRef;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -132,10 +133,18 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
             }
         });
         */
+
+        mGalleryManager = new GalleryManager(getActivity().getApplicationContext());
+        localPhotoList = mGalleryManager.getAllPhotoPathList();
+        dataAdapter = new ImageAdapter(getActivity().getApplicationContext(), imageUrlList, localPhotoList, this, this);
+        recyclerView.setAdapter(dataAdapter);
+
+
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("name_list");
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list.clear();
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                     String key=postSnapshot.getKey();
                     FirebasePost get=postSnapshot.getValue(FirebasePost.class);
@@ -147,10 +156,14 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
                         ImageUrl imageUrl = new ImageUrl();
                         imageUrl.setImageUrl(info[2]);
                         imageUrlList.add(imageUrl);
-                        lalala.add(imageUrl);
                         Log.d("imgSaved", String.valueOf(imageUrlList.size()));
                     }
                 }
+                for (int i = 0; i < imageUrlList.size(); i++){
+                    Log.d("images", ">> " + imageUrlList.get(i).getImageUrl());
+                }
+                Log.d("images", "List count: " + imageUrlList.size());
+                dataAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -158,17 +171,13 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
             }
         });
 
-        Log.d("lalala_size", String.valueOf(lalala.size()));
-        for (int i = 0; i < imageUrlList.size(); i++){
-            Log.d("images", ">> " + imageUrlList.get(i).getImageUrl());
-        }
-        Log.d("images", "List count: " + imageUrlList.size());
-
         //ArrayList firebaseimglist = prepareData();
+        /*
         mGalleryManager = new GalleryManager(getActivity().getApplicationContext());
         localPhotoList = mGalleryManager.getAllPhotoPathList();
         ImageAdapter dataAdapter = new ImageAdapter(getActivity().getApplicationContext(), imageUrlList, localPhotoList, this, this);
         recyclerView.setAdapter(dataAdapter);
+         */
 
         // Inflate the layout for this fragment
         return v;
@@ -211,8 +220,6 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
         }
         Log.d("images", "List count: " + imageUrlList.size());
 
-
-
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
@@ -226,7 +233,6 @@ public class Fragment2  extends Fragment implements ImageAdapter.OnListItemSelec
             Log.d("getFirebaseDatabase","info: "+info[0]+" "+info[1]);
             Log.d("ListSize",String.valueOf(list.size()));
         }
-
         return imageUrlList; // ArrayList : ImageUrl이 저장됨
     }
 */

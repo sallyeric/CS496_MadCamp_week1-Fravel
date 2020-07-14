@@ -1,13 +1,17 @@
 package com.example.firstproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +21,11 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
     public interface OnListItemLongSelectedInterface {
         void onItemLongSelected(View v, int position);
     }
+
     public interface OnListItemSelectedInterface {
         void onItemSelected(View v, int position);
     }
+
     private OnListItemSelectedInterface mListener;
     private OnListItemLongSelectedInterface mLongListener;
 
@@ -68,11 +74,13 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
         //       });
     }
 
+    // 몇개의 데이터를 리스트로 뿌려줘야하는지 반드시 정의해줘야한다
     @Override
     public int getItemCount() {
         return list.size(); // RecyclerView의 size return
     }
 
+    // ViewHolder는 하나의 View를 보존하는 역할을 한다
     public class Holder extends RecyclerView.ViewHolder{
         public TextView nameText;
         public TextView numberText;
@@ -82,20 +90,17 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
             nameText = (TextView) view.findViewById(R.id.name_tv);
             numberText = (TextView) view.findViewById(R.id.number_tv);
 
-            view.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("Tab1", "onClick"+ getAdapterPosition());
-                    int position = getAdapterPosition();
-                    mListener.onItemSelected(v, position);
+                    Log.d("Recyclerview", "position = "+ getAdapterPosition());
                 }
             });
 
-            view.setOnLongClickListener(new View.OnLongClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Log.d("Tab1", "onLongClick"+ getAdapterPosition());
-                    mLongListener.onItemLongSelected(v, getAdapterPosition());
+                    Log.d("Recyclerview", "position = "+ getAdapterPosition());
                     return false;
                 }
             });
