@@ -84,6 +84,8 @@ public class Splash extends AppCompatActivity {
             permissionsNeeded.add("READ");
         if (!addPermission(permissionsList, Manifest.permission.ACCESS_FINE_LOCATION))
             permissionsNeeded.add("WRITE");
+        if (!addPermission(permissionsList, Manifest.permission.CALL_PHONE))
+            permissionsNeeded.add("READ");
 
         if (permissionsList.size() > 0) {
             if (permissionsNeeded.size() > 0) {

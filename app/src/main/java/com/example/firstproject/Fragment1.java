@@ -3,7 +3,9 @@ package com.example.firstproject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,14 +89,21 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     @Override
     public void onItemSelected(View v, int position) {
         SimpleTextAdapter.Holder viewHolder = (SimpleTextAdapter.Holder)recyclerView.findViewHolderForAdapterPosition(position);
-        Toast.makeText(this.getContext(),  " long clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getContext(),  "clicked", Toast.LENGTH_SHORT).show();
         Log.d("test","long clicked");
+        //v.setBackgroundColor(Color.BLUE);
+        //팝업
+
     }
 
     @Override
     public void onItemLongSelected(View v, int position) {
         Log.d("tab1test","clicked");
         Toast.makeText(getActivity().getApplicationContext(), position+" long pressed!" , Toast.LENGTH_SHORT).show();
+        //다이얼
+        //String tel="tel:" + number;
+        //Log.d("MY PHONE:",tel);
+        //startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
     }
 
     @Override
