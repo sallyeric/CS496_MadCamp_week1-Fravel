@@ -43,6 +43,40 @@
             android:imeOptions="actionSearch"/>
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="15dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/first"
+            android:background="@drawable/trophy"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="#FFCE1A"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/second"
+            android:background="@drawable/trophy"
+            android:layout_marginTop="2dp"
+            android:backgroundTint="#BEC2CB"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/third"
+            android:background="@drawable/trophy"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#9A7B4F"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -71,16 +105,7 @@
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="20dp"
-        android:background="@drawable/white_border"
-        android:id="@+id/recommend">
-    </RelativeLayout>
+
 
 
 </RelativeLayout>

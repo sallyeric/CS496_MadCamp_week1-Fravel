@@ -136,7 +136,7 @@
             android:text="Sign Up"
             android:textSize="20dp"
             android:gravity="center"
-            android:textColor="@color/color1"
+            android:textColor="#FC4C4E"
             android:fontFamily="@font/gillsansb"
             android:background="@drawable/circle_button3"
             />

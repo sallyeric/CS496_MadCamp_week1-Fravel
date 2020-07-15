@@ -81,14 +81,11 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this,"You can use this username", Toast.LENGTH_SHORT).show();
 
                                 postFirebaseDatabase(true);
-                                finish();
                                 //Intent
-                                /*
                                 EditText username = (EditText)findViewById(R.id.signupUsername);
                                 Intent signupIntent = new Intent(SignUp.this, LoginActivity.class);
                                 signupIntent.putExtra("Username", username.getText().toString());
                                 startActivity(signupIntent);
-                                 */
                             }
 
                         }
