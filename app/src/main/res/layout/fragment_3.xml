@@ -71,16 +71,4 @@
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:elevation="20dp"
-        android:background="@drawable/white_border"
-        android:id="@+id/recommend">
-    </RelativeLayout>
-
-
 </RelativeLayout>

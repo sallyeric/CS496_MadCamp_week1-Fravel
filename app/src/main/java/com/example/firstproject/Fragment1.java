@@ -87,14 +87,14 @@ public class Fragment1 extends Fragment implements SimpleTextAdapter.OnListItemL
     @Override
     public void onItemSelected(View v, int position) {
         SimpleTextAdapter.Holder viewHolder = (SimpleTextAdapter.Holder)recyclerView.findViewHolderForAdapterPosition(position);
-        Toast.makeText(this.getContext(),  " long clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getContext(),  "Press long to Call", Toast.LENGTH_SHORT).show();
         Log.d("test","long clicked");
     }
 
     @Override
     public void onItemLongSelected(View v, int position) {
         Log.d("tab1test","clicked");
-        Toast.makeText(getActivity().getApplicationContext(), position+" long pressed!" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), "Calling..." , Toast.LENGTH_SHORT).show();
     }
 
     @Override

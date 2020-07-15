@@ -295,6 +295,9 @@ public class Fragment3  extends Fragment
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String nowText = editText.getText().toString();
+                        if(nowText.length()==0){
+                            return;
+                        }
                         Boolean found=false;
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             // TODO: handle the post

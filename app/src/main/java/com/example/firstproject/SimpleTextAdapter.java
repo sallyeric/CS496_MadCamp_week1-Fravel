@@ -2,6 +2,7 @@ package com.example.firstproject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,13 +83,22 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Ho
                     int position = getAdapterPosition();
                     mListener.onItemSelected(v, position);
                     Log.d("Contact", "clicked "+getAdapterPosition());
+                    //팝업으로 최애맛집
                 }
             });
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v){
+                    int position = getAdapterPosition();
                     mLongListener.onItemLongSelected(v, getAdapterPosition());
                     Log.d("Recyclerview", "position = "+ getAdapterPosition());
+                    //다이얼
+                    String tel="tel:" + list.get(position).getNumber();
+                    Log.d("MY PHONE:",tel);
+                    context.startActivity(new Intent("android.intent.action.CALL", Uri.parse(tel)));
+//                    fullScreenIntent.putExtra("image_url", imageUrls.get(position).getImageUrl());
+//                    fullScreenIntent.putExtra("image_title", imageUrls.get(position).getImageTitle());
+//                    fullScreenIntent.putExtra("image_review", imageUrls.get(position).getImageReview());
                     return false;
                 }
             });
