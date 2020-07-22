@@ -1,6 +1,6 @@
 # CS496_MadCamp_Week1
 
-## Tab Application : Fravel (Food & Travel platform)ㅑ
+## Tab Application : Fravel (Food & Travel platform)
 A social sharing application for restaurants that can organically link contacts, galleries, and maps.
 "Fravel" is a word that combines 'food' and 'travel', and is a service that allows you to share your local restaurants with photos and reviews like local people.
 In this project, we were able to develop an application with a level of completeness that is actually usable in addition to visualizing restaurant information using the Google Maps api.
@@ -36,7 +36,6 @@ On the single image show screen, with the github library, we can zoom in the ima
 * Google Maps, Recycler view: 
 
 > Upload Screen
-* 
 
 > Firebase Database and Storage
 * Google Firebase : 
