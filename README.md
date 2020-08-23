@@ -40,11 +40,10 @@ On the single image show screen, with the github library, we can zoom in the ima
 > Firebase Database and Storage
 * Google Firebase : 
 
-![Alt text](./s0.jpg?raw=true "Optional Title")
-![Screenshot](s0.png)
-
-
-
+![Screenshot](s0.png =250x)
+![Screenshot](s0_1.png =250x)
+![Screenshot](s1.png =250x)
+![Screenshot](s2.png =250x)
 
 
 ### 공통과제 Google Docs
