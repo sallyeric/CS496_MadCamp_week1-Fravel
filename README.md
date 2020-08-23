@@ -41,7 +41,15 @@ On the single image show screen, with the github library, we can zoom in the ima
 * Google Firebase : 
 
 
-<img src="http://https://raw.github.com/youngjae99/CS496_MadCamp_week1-Fravel/master/s0.png" width="200" height="200" />
+<img src="https://raw.github.com/youngjae99/CS496_MadCamp_week1-Fravel/master/s0.png" height="400" />
+
+<img src="https://raw.github.com/youngjae99/CS496_MadCamp_week1-Fravel/master/s0_1.png" height="400" />
+
+<img src="https://raw.github.com/youngjae99/CS496_MadCamp_week1-Fravel/master/s1.png" height="400" />
+
+<img src="https://raw.github.com/youngjae99/CS496_MadCamp_week1-Fravel/master/s2.png" height="400" />
+
+<img src="https://raw.github.com/youngjae99/CS496_MadCamp_week1-Fravel/master/s3.png" height="400" />
 
 
 
